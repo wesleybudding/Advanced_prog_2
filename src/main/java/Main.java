@@ -4,6 +4,11 @@ public class Main {
         // Create a scanner on System.in
         
         // While there is input, read line and parse it.
+
+        // Lucas: maakt Set <E> ADT
+        // Lucas: maakt punt 3 list
+        // Wesley: maakt API big integer & hasmap
+        // Wesley: maakt identifier ADT
     }
 
     public static void main(String[] argv) {

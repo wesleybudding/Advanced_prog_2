@@ -34,7 +34,7 @@ public interface SetInterface<E extends Comparable> {
     /**	@precondition  -
      *	@postcondition - The number of elements has been returned.
      **/
-    int size();
+    int cardinality();
 
     /** @precondition  -
      *	@postcondition - Element d has been added to List-PRE.

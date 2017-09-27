@@ -19,6 +19,9 @@ import java.util.HashMap;
 // 12 as two sepperate or regular numbers
 
 
+// test
+
+
 public class Main {
 
     int positionNumberLoop = 0;

@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2_main.iml" group="AP2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2_main.iml" group="AP2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2_test.iml" group="AP2" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AP2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/AP2_test.iml" group="AP2" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Advanced_prog_2.iml" filepath="$PROJECT_DIR$/.idea/Advanced_prog_2.iml" />
     </modules>

@@ -1,6 +1,7 @@
+import java.util.Scanner;
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 // Create a scanner on System.in
 
@@ -13,13 +14,37 @@ import java.util.Scanner;
 // https://www.javaworld.com/article/2076974/learn-java/build-an-interpreter-in-java----implement-the-execution-engine.html
 // https://ruslanspivak.com/lsbasi-part1/
 // https://en.wikipedia.org/wiki/Extended_Backus–Naur_form
+// example string that needs to be interpertated ?
+// identifier for math operations seperate or just in reader ?
+// 12 as two sepperate or regular numbers
 
 
 public class Main {
 
+    int positionNumberLoop = 0;
+    Identifier iden = new Identifier();
+
+     void numberLoop(String x, int n){
+        int positionNumberLoop = n;
+        System.out.print(x.charAt(n));
+        if(iden.number(x.charAt(n+1))){
+            System.out.print(x.charAt(n));
+            positionNumberLoop++;
+            numberLoop(x, positionNumberLoop);
+        }else if(iden.zero(x.charAt(n+1))){
+            positionNumberLoop++;
+            numberLoop(x, positionNumberLoop);
+        }else{
+            positionNumberLoop++;
+        }
+
+
+    }
+
+
     private void start() {
         Scanner data = new Scanner(System.in);
-        Identifier iden = new Identifier();
+
 
         System.out.println("Test input:");
 
@@ -27,13 +52,14 @@ public class Main {
         for(int i = 0 ; i<file.length();i++){
             System.out.println("testing: " + file.charAt(i));
             if(iden.number(file.charAt(i))){
-                System.out.println("number");
+                numberLoop(file , i);
+                i=positionNumberLoop;
             }else if(iden.zero(file.charAt(i))){
                 System.out.println("zero");
             }else if(iden.letter(file.charAt(i))){
                 System.out.println("letter");
             }else if(iden.space(file.charAt(i))){
-                System.out.println("letter");
+                System.out.println("space");
             }else{
                 System.out.println("invallid ");
             }

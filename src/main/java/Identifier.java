@@ -2,13 +2,11 @@
  * Created by wesleybudding on 20/09/2017.
  */
 public class Identifier {
+    // make interface
+    // identifier - add
 
-    //char[] nonZeroNumber =  {"1","2","3","4","5","6","7","8","9" };
     char[] nonZeroNumber = "123456789".toCharArray();
     char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    //char[] letter =  { "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-    //                    "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" };
-
 
     boolean number(char x){
         for(int i = 0; i<9; i++){
@@ -46,6 +44,8 @@ public class Identifier {
         }
         return false;
     }
+
+
 
 
 }

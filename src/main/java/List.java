@@ -18,6 +18,9 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     }
 
+    Node listHeadPointer;
+    int size;
+
     @Override
     public boolean isEmpty() {
         return false;
@@ -25,21 +28,32 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public ListInterface<E> init() {
+        size = 0;
+        listHeadPointer = null;
         return null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public ListInterface<E> insert(E d) {
-        return null;
+        Node firstNode = listHeadPointer;
+        Node newNode = new Node(d,null,firstNode);
+        firstNode.prior = newNode;
+
+        listHeadPointer = newNode;
+        size++;
+        return (ListInterface<E>) d;
     }
 
     @Override
     public E retrieve() {
+        if(!isEmpty()){
+            return listHeadPointer.data;
+        }
         return null;
     }
 

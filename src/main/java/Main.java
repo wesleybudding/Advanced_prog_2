@@ -22,6 +22,12 @@ import java.util.HashMap;
 // test
 // Betere test
 
+// Vragen voor TA:
+// List: Should there be a pointer to the first element ("head"), the last element, and the 'current element?
+// List: What should the ListInterface<E> methods return? A list object? Pointer to the current node?
+// List: What is the function of init() in comparison to constructor List() -> Should it just create a node that has as data 'null'?
+// Ik heb de SetInterface nog wat aangepast, of ze daar misschien nog naar kan kijken.
+
 
 public class Main {
 

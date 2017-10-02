@@ -1,119 +1,64 @@
 /**	@elements : objects of type E
- *	@structure : linear
- *	@domain : 	The elements in the list are sorted monotonically increasing.
- *				All rows of elements of type E are valid values for a list.
- *       		For every non-empty list the reference current is pointing to an
- *				element in the list.
- *	@constructor - List();
+ *	@structure : Set
+ *	@domain : 	The elements in the set are sorted monotonically increasing.
+ *				All elements of type E are valid values for a set.
+ *
+ *	@constructor - Set();
  *	<dl>
  *		<dt><b>PRE-conditie</b><dd>		-
- *		<dt><b>POST-conditie</b><dd> 	The new List-object is the empty list.
+ *		<dt><b>POST-conditie</b><dd> 	The new List-object is the empty set.
  * </dl>
  **/
 
-/**
- *  functions Identifier
- *  functions Add
- *  operations
- */
-
-
 public interface SetInterface<E extends Comparable> {
 
-    /**	@precondition -
-     *  @postcondition - FALSE: list is not empty.
-     *  				TRUE:  list is empty.
+    /** @precondition  -
+     *	@postcondition - Union of set s and set t is returned.
      **/
-    boolean isEmpty();
+    SetInterface<E> union(SetInterface s, SetInterface t);
 
     /** @precondition  -
-     *	@postcondition - list-POST is empty and has been returned.
+     *	@postcondition - Intersection of set s and set t is returned.
      **/
-    SetInterface<E> init();
+    SetInterface<E> intersection(SetInterface s, SetInterface t);
+
+    /** @precondition  -
+     *	@postcondition - The comlpement of set s and set t is returned. (s \ t)
+     **/
+    SetInterface<E> complement(SetInterface s, SetInterface t);
+
+
+    /** @precondition  -
+     *	@postcondition - Element d has been added to the Set
+     **/
+    SetInterface<E> add(E d);
+
+
+    /** @precondition  - The list is not empty.
+     *	@postcondition -The element d has been returned.
+     */
+    E retrieve(E d);
+
+    /** @precondition  - The list is not empty.
+     * 	@postcondition - The element is removed from the set.
+     **/
+    SetInterface<E> remove(E d);
+
+    /**
+     * @precondition - The set is not empty
+     * @postcondition - TRUE: Element is present in set.
+     *                  FALSE: Element is not present in set.
+     */
+    boolean isElement(E d);
+
+    /**	@precondition -
+     *  @postcondition - FALSE: Set is not empty.
+     *  				TRUE:  Set is empty.
+     **/
+    boolean isEmpty();
 
     /**	@precondition  -
      *	@postcondition - The number of elements has been returned.
      **/
     int cardinality();
-
-    /** @precondition  -
-     *	@postcondition - Element d has been added to List-PRE.
-     *    				current points to the newly added element.
-     *   				list-POST has been returned.
-     **/
-    SetInterface<E> insert(E d);
-
-
-    /** @precondition  - The list is not empty.
-     *	@postcondition -The value of the current element has been returned.
-     */
-    E retrieve();
-
-
-    /** @precondition  - The list is not empty.
-     * 	@postcondition - The current element of list-PRE is not present in list-POST.
-     * 	    			current-POST points to
-     *    					- if list-POST is empty
-     *   						null
-     *   					- if list-POST is not empty
-     *     						if current-PRE was the last element of list-PRE
-     *     							the last element of list-POST
-     *     						else
-     *     							the element after current-PRE
-     *  				list-POST has been returned.
-     **/
-    SetInterface<E> remove();
-
-
-    /** @precondition  -
-     *	@postcondition - TRUE:  The list contains the element d.
-     *	     			current-POST points to the first element in list that
-     *	     			contains the element d.
-     *     				FALSE: list does not contain the element d.
-     *	     			current-POST points to
-     *	      				- if list-POST is empty
-     *                    		null
-     *	      				- if the first element in list > d:
-     *                    		the first element in list
-     *        				else
-     *	    					the last element in list with value < d
-     **/
-    boolean find(E d);
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty
-     *    				TRUE:  current points to the first element
-     **/
-    boolean goToFirst();
-
-
-    /**	@precondition  -
-     *	@postcondition - FALSE: list is empty
-     *     				TRUE:  current points to the last element
-     */
-    boolean goToLast();
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty or current points to the last element
-     *     				TRUE:  current-POST points to the next element of current-PRE
-     */
-    boolean goToNext();
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty of current points to the first element
-     *     				TRUE:  current-POST points to the prior element of current-PRE
-     */
-    boolean goToPrevious();
-
-    /**
-     * @precondition -
-     * @postcondition A deep copy of the list has been returned.
-     */
-    SetInterface<E> copy();
-
-
-
 }

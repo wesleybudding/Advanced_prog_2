@@ -28,6 +28,8 @@ import java.util.HashMap;
 // List: What is the function of init() in comparison to constructor List() -> Should it just create a node that has as data 'null'?
 // Ik heb de SetInterface nog wat aangepast, of ze daar misschien nog naar kan kijken.
 
+// Should the set order the input numbers, or should main do this?
+
 
 public class Main {
 

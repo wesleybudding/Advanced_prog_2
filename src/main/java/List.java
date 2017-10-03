@@ -38,11 +38,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public boolean isEmpty() {
-        if (size > 0){
-            return false;
-        } else {
-            return true;
-        }
+        return !(size > 0);
     }
 
     @Override
@@ -65,6 +61,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
         oldHead.prior = newHead;
 
         head = newHead;
+        currentNode = head;
         size++;
         return (ListInterface<E>) d;
     }
@@ -72,29 +69,27 @@ public class List<E extends Comparable> implements ListInterface<E>{
     @Override
     public E retrieve() {
         if(!isEmpty()){
-            return head.data;
+            return currentNode.data;
         }
         return null;
     }
 
-    @Override
+    @Override // Cleanup: currentNode
     public ListInterface<E> remove() {
         if(!isEmpty()){
-            head.next.prior = null;
-            head = head.next;
+            currentNode.next.prior = currentNode.prior;
+            currentNode.prior.next = currentNode.next;
         }
-
         if(isEmpty()){
-            return null;
+            currentNode = null;
+        } else{
+            currentNode = currentNode.next;
         }
-        else{
-            //return head;
-            return null;
-        }
+        return null;
 
     }
 
-    @Override
+    @Override //Cleanup
     public boolean find(E d) {
         currentNode = head;
         int counter = 0;

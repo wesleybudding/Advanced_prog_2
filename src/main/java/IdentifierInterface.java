@@ -1,119 +1,67 @@
-/**	@elements : objects of type E
+/**	@elements : objects of characters
  *	@structure : linear
- *	@domain : 	The elements in the list are sorted monotonically increasing.
- *				All rows of elements of type E are valid values for a list.
- *       		For every non-empty list the reference current is pointing to an
- *				element in the list.
- *	@constructor - List();
- *	<dl>
- *		<dt><b>PRE-conditie</b><dd>		-
- *		<dt><b>POST-conditie</b><dd> 	The new List-object is the empty list.
- * </dl>
+ *	@domain : 	state boundary it states only numbers & letters It's on it's own and combines with the hashmap and the set
+ *	get & size add
+ *  d.papuc@
  **/
 
 /**
  *  functions Identifier
  *  functions Add
  *  operations
- */
+ *
+ *  Questions
+ **/
 
+/** @precondition  - The list is not empty.
+ * 	@postcondition - The element is removed from the set.
+ **/
 
-public interface IdentifierInterface<E extends Comparable> {
+interface IdentifierInterface{
+
 
     /**	@precondition -
-     *  @postcondition - FALSE: list is not empty.
-     *  				TRUE:  list is empty.
+     *  @postcondition - FALSE: item is not name.
+     *  				TRUE:  item is name.
      **/
-    boolean isEmpty();
+    boolean isName();
 
-    /** @precondition  -
-     *	@postcondition - list-POST is empty and has been returned.
+    /**	@precondition -
+     *  @postcondition - FALSE: string is statement of value's.
+     *  				TRUE:  string needs to return values's .
      **/
-    IdentifierInterface<E> init();
+    boolean isQuestion();
 
-    /**	@precondition  -
-     *	@postcondition - The number of elements has been returned.
+    /**	@precondition -
+     *  @postcondition - FALSE: item is not equal sign.
+     *  				TRUE:  item is equal sign.
      **/
-    int size();
+    boolean isEqualsSign();
 
-    /** @precondition  -
-     *	@postcondition - Element d has been added to List-PRE.
-     *    				current points to the newly added element.
-     *   				list-POST has been returned.
+    /**	@precondition -
+     *  @postcondition - returns type operator.
      **/
-    IdentifierInterface<E> insert(E d);
-
-
-    /** @precondition  - The list is not empty.
-     *	@postcondition -The value of the current element has been returned.
-     */
-    E retrieve();
-
-
-    /** @precondition  - The list is not empty.
-     * 	@postcondition - The current element of list-PRE is not present in list-POST.
-     * 	    			current-POST points to
-     *    					- if list-POST is empty
-     *   						null
-     *   					- if list-POST is not empty
-     *     						if current-PRE was the last element of list-PRE
-     *     							the last element of list-POST
-     *     						else
-     *     							the element after current-PRE
-     *  				list-POST has been returned.
-     **/
-    IdentifierInterface<E> remove();
-
-
-    /** @precondition  -
-     *	@postcondition - TRUE:  The list contains the element d.
-     *	     			current-POST points to the first element in list that
-     *	     			contains the element d.
-     *     				FALSE: list does not contain the element d.
-     *	     			current-POST points to
-     *	      				- if list-POST is empty
-     *                    		null
-     *	      				- if the first element in list > d:
-     *                    		the first element in list
-     *        				else
-     *	    					the last element in list with value < d
-     **/
-    boolean find(E d);
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty
-     *    				TRUE:  current points to the first element
-     **/
-    boolean goToFirst();
-
-
-    /**	@precondition  -
-     *	@postcondition - FALSE: list is empty
-     *     				TRUE:  current points to the last element
-     */
-    boolean goToLast();
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty or current points to the last element
-     *     				TRUE:  current-POST points to the next element of current-PRE
-     */
-    boolean goToNext();
-
-
-    /** @precondition  -
-     *	@postcondition - FALSE: list is empty of current points to the first element
-     *     				TRUE:  current-POST points to the prior element of current-PRE
-     */
-    boolean goToPrevious();
+    void isOperator();
 
     /**
-     * @precondition -
-     * @postcondition A deep copy of the list has been returned.
-     */
-    IdentifierInterface<E> copy();
+     *  The identifier reads & splits string and identifies the element.
+     *  @postcondition - items in string and gives them type
+     **/
+    void identifier(String input);
 
+
+    /**
+     *  Add creates new set.
+     *  @postcondition -
+     **/
+    void add(String input);
+
+
+    /**
+     *  @precondition - The set is not empty
+     *  @postcondition - Returns set
+     **/
+    void returns(String input);
 
 
 }

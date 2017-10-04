@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Created by wesleybudding on 20/09/2017.
  */
@@ -6,7 +8,8 @@ public class Identifier {
     // identifier - add
 
     char[] nonZeroNumber = "123456789".toCharArray();
-    char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    char[] letter = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    CharSequence test = "abcdefghijklmnopqrstuvwxyz";
 
     boolean number(char x){
         for(int i = 0; i<9; i++){
@@ -45,7 +48,20 @@ public class Identifier {
         return false;
     }
 
+    //new
+    void identifier(String input){
+        Scanner in = new Scanner(input);
+        while(in.hasNext()){
+            String value = in.next();
+            if(value.equals("?")){
+                System.out.println("we need results");
+            }if(value.contains(test)){
+                System.out.println("store name" + value);
+            }
 
+            System.out.println(value);
+        }
+    }
 
 
 }

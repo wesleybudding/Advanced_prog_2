@@ -24,11 +24,14 @@ import java.util.HashMap;
 
 // Vragen voor TA:
 // List: Should there be a pointer to the first element ("head"), the last element, and the 'current element?
-// List: What should the ListInterface<E> methods return? A list object? Pointer to the current node?
-// List: What is the function of init() in comparison to constructor List() -> Should it just create a node that has as data 'null'?
+// List: What should the ListInterface<E> methods return? A list object? Pointer to the current node? list
 // Ik heb de SetInterface nog wat aangepast, of ze daar misschien nog naar kan kijken.
-
-// Should the set order the input numbers, or should main do this?
+// List should order numbers.
+// list can contain duplicate numbers, but set should be unique
+// Should the set order the input numbers, or should main do this? main
+// what do step 6 and 9 mean?
+// parser in main should arange everything.
+// 6 is the ebnf interperter = parser of lines
 
 
 public class Main {
@@ -56,30 +59,15 @@ public class Main {
 
     private void start() {
         Scanner data = new Scanner(System.in);
-
-
+        Identifier identifier = new Identifier();
         System.out.println("Test input:");
-
-        String file = data.nextLine();
-        for(int i = 0 ; i<file.length();i++){
-            System.out.println("testing: " + file.charAt(i));
-            if(iden.number(file.charAt(i))){
-                numberLoop(file , i);
-                i=positionNumberLoop;
-            }else if(iden.zero(file.charAt(i))){
-                System.out.println("zero");
-            }else if(iden.letter(file.charAt(i))){
-                System.out.println("letter");
-            }else if(iden.space(file.charAt(i))){
-                System.out.println("space");
-            }else{
-                System.out.println("invallid ");
-            }
+        String line = data.nextLine();
+        identifier.identifier(line);
 
         }
 
 
-    }
+
 
 
 

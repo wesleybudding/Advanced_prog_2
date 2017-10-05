@@ -19,49 +19,30 @@
 
 interface IdentifierInterface{
 
-
-    /**	@precondition -
-     *  @postcondition - FALSE: item is not name.
-     *  				TRUE:  item is name.
-     **/
-    boolean isName();
-
-    /**	@precondition -
-     *  @postcondition - FALSE: string is statement of value's.
-     *  				TRUE:  string needs to return values's .
-     **/
-    boolean isQuestion();
-
-    /**	@precondition -
-     *  @postcondition - FALSE: item is not equal sign.
-     *  				TRUE:  item is equal sign.
-     **/
-    boolean isEqualsSign();
-
-    /**	@precondition -
-     *  @postcondition - returns type operator.
-     **/
-    void isOperator();
-
-    /**
-     *  The identifier reads & splits string and identifies the element.
-     *  @postcondition - items in string and gives them type
-     **/
-    void identifier(String input);
-
-
     /**
      *  Add creates new set.
+     *  @precondition -
      *  @postcondition -
      **/
-    void add(String input);
+    void add();
 
 
     /**
-     *  @precondition - The set is not empty
+     *  @precondition - The object is not empty
      *  @postcondition - Returns set
      **/
-    void returns(String input);
+    void returns();
 
+    /**
+     *  @precondition -
+     *  @postcondition - Returns object on certain position
+     **/
+    void get();
+
+    /**
+     *  @precondition -
+     *  @postcondition - Returns set
+     **/
+    void size();
 
 }

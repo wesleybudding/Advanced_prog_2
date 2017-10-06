@@ -7,17 +7,22 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     }
 
     @Override
-    public SetInterface<E> union(SetInterface s, SetInterface t) {
+    public SetInterface<E> union(SetInterface t) {
         return null;
     }
 
     @Override
-    public SetInterface<E> intersection(SetInterface s, SetInterface t) {
+    public SetInterface<E> intersection(SetInterface t) {
         return null;
     }
 
     @Override
-    public SetInterface<E> complement(SetInterface s, SetInterface t) {
+    public SetInterface<E> complement(SetInterface t) {
+        return null;
+    }
+
+    @Override
+    public SetInterface<E> indifference(SetInterface t) {
         return null;
     }
 

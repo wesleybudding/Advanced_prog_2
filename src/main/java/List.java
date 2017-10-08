@@ -1,6 +1,6 @@
 public class List<E extends Comparable> implements ListInterface<E>{
 
-
+    // Looking at init? Maybe
     // Remove and Find classes clean-up
     // Deep copy
 
@@ -113,7 +113,9 @@ public class List<E extends Comparable> implements ListInterface<E>{
         if(isEmpty()){
             return false;
         } else {
-            currentNode = head;
+            while(currentNode.next.data != null){
+                currentNode = currentNode.next;
+            }
             return true;
         }
     }
@@ -123,27 +125,25 @@ public class List<E extends Comparable> implements ListInterface<E>{
         if(isEmpty()){
             return false;
         }
-        while(currentNode.next != null){
-            currentNode = currentNode.next;
-        }
+        currentNode = head;
         return true;
     }
 
     @Override
     public boolean goToNext() {
-        if((isEmpty()) | (currentNode.next == null)){
+        if((isEmpty()) | (currentNode.prior == null)){
             return false;
         }
-        currentNode = currentNode.next;
+        currentNode = currentNode.prior;
         return true;
     }
 
     @Override
     public boolean goToPrevious() {
-        if((isEmpty()) | (currentNode.prior == null)){
+        if((isEmpty()) | (currentNode.next.data == null)){
             return false;
         }
-        currentNode = currentNode.prior;
+        currentNode = currentNode.next;
         return true;
     }
 

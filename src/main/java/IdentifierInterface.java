@@ -1,47 +1,38 @@
 /**	@elements : objects of characters
  *	@structure : linear
- *	@domain : 	state boundary it states only numbers & letters It's on it's own and combines with the hashmap and the set
- *	get & size add
+ *	@domain : 	The elements in the Identifier are char's and can only be numbers or letters. It's on it's own and combines with the hashmap.
  *  d.papuc@
  **/
 
-/**
- *  functions Identifier
- *  functions Add
- *  operations
- *
- *  Questions
- **/
-
-/** @precondition  - The list is not empty.
- * 	@postcondition - The element is removed from the set.
+/** @precondition  -
+ * 	@postcondition - The new identifier is the empty identifier.
+ * 	                 char position starts with "a" and grows alphabetically incrementally when adding new characters.
  **/
 
 interface IdentifierInterface{
 
     /**
-     *  Add creates new set.
-     *  @precondition -
-     *  @postcondition -
+     *  @precondition - element has to be char
+     *  @postcondition - char has to be added to identifier and position has to go to next letter in alphabet
      **/
-    void add();
+    void add(char charToStore);
 
 
     /**
-     *  @precondition - The object is not empty
-     *  @postcondition - Returns set
+     *  @precondition - The identifier is not empty
+     *  @postcondition - Returns char on current position
      **/
     void returns();
 
     /**
-     *  @precondition -
-     *  @postcondition - Returns object on certain position
+     *  @precondition - The identifier is not empty
+     *  @postcondition - Returns char on position p
      **/
-    void get();
+    void get(char p);
 
     /**
      *  @precondition -
-     *  @postcondition - Returns set
+     *  @postcondition - Returns size of identifier based on position
      **/
     void size();
 

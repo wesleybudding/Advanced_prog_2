@@ -7,61 +7,6 @@ public class Identifier {
     // make interface
     // identifier - add
 
-    char[] nonZeroNumber = "123456789".toCharArray();
-    char[] letter = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-    CharSequence test = "abcdefghijklmnopqrstuvwxyz";
-
-    boolean number(char x){
-        for(int i = 0; i<9; i++){
-            Character check = new Character(x);
-            if(check.equals(nonZeroNumber[i])){
-                return true;
-                //System.out.println("true");
-            }
-        }
-            return false;
-    }
-
-    boolean zero(char x){
-            if(x==0){
-                return true;
-            }
-
-        return false;
-    }
-
-    boolean letter(char x){
-        Character check = new Character(x);
-        for(int i = 0; i<51; i++){
-            if(check.equals(letter[i])){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    boolean space(char x){
-        Character check = new Character(x);
-        if(check.equals(" ")){
-            return true;
-        }
-        return false;
-    }
-
-    //new
-    void identifier(String input){
-        Scanner in = new Scanner(input);
-        while(in.hasNext()){
-            String value = in.next();
-            if(value.equals("?")){
-                System.out.println("we need results");
-            }if(value.contains(test)){
-                System.out.println("store name" + value);
-            }
-
-            System.out.println(value);
-        }
-    }
 
 
 }

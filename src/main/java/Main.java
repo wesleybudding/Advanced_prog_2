@@ -33,56 +33,45 @@ import java.util.HashMap;
 // parser in main should arange everything.
 // 6 is the ebnf interperter = parser of lines
 
-//    char[] nonZeroNumber = "123456789".toCharArray();
-//            char[] letter = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-//            CharSequence test = "abcdefghijklmnopqrstuvwxyz";
-//
-//            boolean number(char x){
-//            for(int i = 0; i<9; i++){
-//            Character check = new Character(x);
-//            if(check.equals(nonZeroNumber[i])){
-//            return true;
-//            //System.out.println("true");
-//            }
-//            }
-//            return false;
-//            }
-//
-//            boolean zero(char x){
-//            if(x==0){
-//            return true;
-//            }
-//
-//            return false;
-//            }
-//
-//            boolean letter(char x){
-//            Character check = new Character(x);
-//            for(int i = 0; i<51; i++){
-//            if(check.equals(letter[i])){
-//            return true;
-//            }
-//            }
-//            return false;
-//            }
-//
-//            boolean space(char x){
-//            Character check = new Character(x);
-//            if(check.equals(" ")){
-//            return true;
-//            }
-//            return false;
-//            }
 
+//BigInteger: String as input
+// BigInteger bigInt = new BigInteger("40000");
+
+// Hashmap h = new Hashmap();
+// h.put(key,value)
 
 
 public class Main {
 
+    int positionNumberLoop = 0;
+    Identifier iden = new Identifier();
+
+     void numberLoop(String x, int n){
+        int positionNumberLoop = n;
+        System.out.print(x.charAt(n));
+        if(iden.number(x.charAt(n+1))){
+            System.out.print(x.charAt(n));
+            positionNumberLoop++;
+            numberLoop(x, positionNumberLoop);
+        }else if(iden.zero(x.charAt(n+1))){
+            positionNumberLoop++;
+            numberLoop(x, positionNumberLoop);
+        }else{
+            positionNumberLoop++;
+        }
+
+
+    }
+
+    
+
 
     private void start() {
         Scanner data = new Scanner(System.in);
-
-
+        Identifier identifier = new Identifier();
+        System.out.println("Test input:");
+        String line = data.nextLine();
+        identifier.identifier(line);
         }
 
 

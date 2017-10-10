@@ -1,5 +1,7 @@
 public class Set<E extends Comparable> implements SetInterface<E> {
 
+    // Look at retrieve
+
     List set;
 
     Set(){
@@ -31,13 +33,14 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         if(!isElement(d)){
             set.insert(d);
         }
-        return null;
+        return this;
     }
 
     @Override
     public E retrieve(E d) {
         if (isElement(d)) {
             set.retrieve();
+            return d;
         }
         return null;
     }
@@ -47,7 +50,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         if(isElement(d)){
             set.remove();
         }
-        return null;
+        return this;
     }
 
     @Override

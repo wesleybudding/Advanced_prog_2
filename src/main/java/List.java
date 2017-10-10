@@ -1,8 +1,10 @@
-public class List<E extends Comparable> implements ListInterface<E>{
+public class List<E extends Comparable> implements ListInterface<E> {
 
     // Looking at init? Maybe
     // Remove and Find classes clean-up
     // Deep copy
+
+    // CLEANUP FIND!
 
     private class Node {
 
@@ -26,7 +28,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
     private Node currentNode;
     private int size;
 
-    List(){
+    List() {
         size = 0;
         head = new Node(null);
         currentNode = head;
@@ -54,7 +56,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
     public ListInterface<E> insert(E d) {
 
         Node oldHead = head;
-        Node newHead = new Node(d,null,oldHead);
+        Node newHead = new Node(d, null, oldHead);
         oldHead.prior = newHead;
 
         head = newHead;
@@ -65,7 +67,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public E retrieve() {
-        if(!isEmpty()){
+        if (!isEmpty()) {
             return currentNode.data;
         }
         return null;
@@ -73,13 +75,13 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public ListInterface<E> remove() {
-        if(isEmpty() | (currentNode == head && (currentNode.next == null))){
+        if (isEmpty() | (currentNode == head && (currentNode.next == null))) {
             head = new Node(null);
             currentNode = head;
-        } else if(currentNode == head){
+        } else if (currentNode == head) {
             head.next.prior = null;
             head = head.next;
-        } else if (currentNode.next == null){
+        } else if (currentNode.next == null) {
             currentNode.prior.next = null;
             currentNode = currentNode.prior;
         }
@@ -89,22 +91,23 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public boolean find(E d) {
-        currentNode = head;
+        if (goToFirst()) {
+            while ((currentNode.data != d) && (currentNode.data.compareTo(d) < 0)) {
+                if (currentNode.prior == null) {
+                    return false;
+                } else {
+                    currentNode = currentNode.prior;
+                }
+            }
 
-        if(isEmpty()){
+            if(currentNode.data == d){
+                return true;
+            }else{
+                return false;
+            }
+        } else {
             currentNode = null;
             return false;
-        } else if (head.data.compareTo(d) > 0){
-            currentNode = head;
-            return false;
-        } else {
-            while (currentNode.data != d) {
-                if (currentNode.next == null) {
-                    return false;
-                }
-                currentNode = currentNode.next;
-            }
-            return true;
         }
     }
 

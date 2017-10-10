@@ -70,6 +70,8 @@ public interface ListInterface<E extends Comparable> {
      *                    		the first element in list
      *        				else
      *	    					the last element in list with value < d
+     *
+     *
      **/
     boolean find(E d);
 

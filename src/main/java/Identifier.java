@@ -1,12 +1,31 @@
-import java.util.Scanner;
+public class Identifier implements IdentifierInterface{
 
-/**
- * Created by wesleybudding on 20/09/2017.
- */
-public class Identifier {
-    // make interface
-    // identifier - add
+    public static int MAX_POSITIONS=50;
 
+    int position;
+    char [] letters;
 
+    @Override
+    public void addFirst(char charToStore) {
+        letters = new char[MAX_POSITIONS];
+        position=0;
+        letters[position]=charToStore;
+        position++;
+    }
 
+    @Override
+    public void add(char charToStore) {
+        letters[position]=charToStore;
+        position++;
+    }
+
+    @Override
+    public char get(char p) {
+        return letters[p];
+    }
+
+    @Override
+    public int size() {
+        return position;
+    }
 }

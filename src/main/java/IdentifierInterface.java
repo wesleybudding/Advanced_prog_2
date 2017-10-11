@@ -29,12 +29,12 @@ interface IdentifierInterface{
      *  @precondition - The identifier is not empty and p exists
      *  @postcondition - Returns char on position p
      **/
-    void get(char p);
+    char get(char p);
 
     /**
      *  @precondition -
      *  @postcondition - Returns size of identifier based on position
      **/
-    void size();
+    int size();
 
 }

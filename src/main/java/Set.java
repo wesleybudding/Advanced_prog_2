@@ -2,15 +2,32 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     // Look at retrieve
 
-    List set;
+    private List set;
+    private int size;
 
     Set(){
        set = new List();
+       size = 0;
     }
 
     @Override
     public SetInterface<E> union(SetInterface t) {
-        return null;
+        Set result = new Set();
+        int counter = 0;
+
+        firstElement();
+        while(counter < cardinality()){
+            result.add(retrieve());
+            nextElement();
+        }
+        counter = 0;
+        firstElement();
+        while(counter < t.cardinality()){
+            result.add(t.retrieve());
+            t.nextElement();
+
+        }
+        return result;
     }
 
     @Override
@@ -32,16 +49,14 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     public SetInterface<E> add(E d) {
         if(!isElement(d)){
             set.insert(d);
+            size++;
         }
         return this;
     }
 
     @Override
-    public E retrieve(E d) {
-        if (isElement(d)) {
-            set.retrieve();
-            return d;
-        }
+    public E retrieve() {
+        set.retrieve();
         return null;
     }
 
@@ -49,6 +64,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     public SetInterface<E> remove(E d) {
         if(isElement(d)){
             set.remove();
+            size--;
         }
         return this;
     }
@@ -65,6 +81,16 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     @Override
     public int cardinality() {
-        return set.size();
+        return size;
+    }
+
+    @Override
+    public void firstElement(){
+        set.goToFirst();
+    }
+
+    @Override
+    public void nextElement(){
+        set.goToNext();
     }
 }

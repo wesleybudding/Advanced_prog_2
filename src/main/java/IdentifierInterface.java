@@ -1,31 +1,32 @@
 /**	@elements : objects of characters
  *	@structure : linear
- *	@domain : 	The elements in the Identifier are char's and can only be numbers or letters. It's on it's own and combines with the hashmap.
+ *	@domain : 	The elements in the Identifier are char's and can only be numbers or letters. The first value is always a letter.
+ *	It's on it's own and combines with the hashmap.
  *  d.papuc@
  **/
 
 /** @precondition  -
  * 	@postcondition - The new identifier is the empty identifier.
- * 	                 char position starts with "a" and grows alphabetically incrementally when adding new characters.
+ * 	                 !!int position starts with "a" and grows alphabetically incrementally when adding new characters.
  **/
 
 interface IdentifierInterface{
 
     /**
-     *  @precondition - element has to be char
-     *  @postcondition - char has to be added to identifier and position has to go to next letter in alphabet
+     *  @precondition - first char to add to identifier, should be a letter
+     *  @postcondition - char has to be added to identifier and position is initialized
+     **/
+    void addFirst(char charToStore);
+
+    /**
+     *  @precondition - position p !> 26 (the letter z)
+     *  @postcondition - char has to be added to identifier and position has to go up 1.
      **/
     void add(char charToStore);
 
 
     /**
-     *  @precondition - The identifier is not empty
-     *  @postcondition - Returns char on current position
-     **/
-    void returns();
-
-    /**
-     *  @precondition - The identifier is not empty
+     *  @precondition - The identifier is not empty and p exists
      *  @postcondition - Returns char on position p
      **/
     void get(char p);

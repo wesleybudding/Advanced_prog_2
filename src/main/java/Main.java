@@ -6,32 +6,9 @@ import java.util.HashMap;
 // Create a scanner on System.in
 
 // While there is input, read line and parse it.
+// Lucas: LIST & SET operation afmaken.
+// Wesley: Identifier, EBNF method, hashmap 
 
-// Lucas: maakt Set <E> ADT
-// Lucas: maakt punt 3 list
-// Wesley: maakt API big integer & hasmap
-// Wesley: maakt identifier ADT
-// https://www.javaworld.com/article/2076974/learn-java/build-an-interpreter-in-java----implement-the-execution-engine.html
-// https://ruslanspivak.com/lsbasi-part1/
-// https://en.wikipedia.org/wiki/Extended_Backus–Naur_form
-// example string that needs to be interpertated ?
-// identifier for math operations seperate or just in reader ?
-// 12 as two sepperate or regular numbers
-
-
-// test
-// Betere test
-
-// Vragen voor TA:
-// List: Should there be a pointer to the first element ("head"), the last element, and the 'current element?
-// List: What should the ListInterface<E> methods return? A list object? Pointer to the current node? list
-// Ik heb de SetInterface nog wat aangepast, of ze daar misschien nog naar kan kijken.
-// List should order numbers.
-// list can contain duplicate numbers, but set should be unique
-// Should the set order the input numbers, or should main do this? main
-// what do step 6 and 9 mean?
-// parser in main should arange everything.
-// 6 is the ebnf interperter = parser of lines
 
 //    char[] nonZeroNumber = "123456789".toCharArray();
 //            char[] letter = "abcdefghijklmnopqrstuvwxyz".toCharArray();

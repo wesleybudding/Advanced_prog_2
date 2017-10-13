@@ -1,48 +1,66 @@
 public class Set<E extends Comparable> implements SetInterface<E> {
 
-    // Look at retrieve
-
     private List set;
     private int size;
 
     Set(){
-       set = new List();
-       size = 0;
+        set = new List();
+        size = 0;
     }
 
     @Override
-    public SetInterface<E> union(SetInterface t) {
+    public Set<E> union(Set t) {
         Set result = new Set();
-        int counter = 0;
+        int counter = 1;
 
-        firstElement();
         while(counter < cardinality()){
-            result.add(retrieve());
-            nextElement();
+            result.add(retrieve(counter));
+            counter++;
         }
-        counter = 0;
-        firstElement();
-        while(counter < t.cardinality()){
-            result.add(t.retrieve());
-            t.nextElement();
 
+        counter = 1;
+
+        while(counter < t.cardinality()){
+            result.add(retrieve(counter));
+            counter++;
         }
         return result;
     }
 
     @Override
-    public SetInterface<E> intersection(SetInterface t) {
-        return null;
+    public Set<E> intersection(Set t) {
+        Set result = new Set();
+        int counter = 1;
+
+        while(counter < cardinality()){
+            if(t.isElement(retrieve(counter))){
+                result.add(retrieve(counter));
+                counter++;
+            }
+        }
+        return result;
     }
 
     @Override
-    public SetInterface<E> complement(SetInterface t) {
-        return null;
+    public Set<E> complement(Set t) {
+        Set result = new Set();
+        int counter = 1;
+
+        while(counter < cardinality()){
+            if(!(t.isElement(retrieve(counter)))){
+                result.add(retrieve(counter));
+                counter++;
+            }
+        }
+        return  result;
     }
 
     @Override
-    public SetInterface<E> indifference(SetInterface t) {
-        return null;
+    public Set<E> indifference(Set t) {
+        Set result1 = union(t);
+        Set result2 = intersection(t);
+
+        return result1.complement(result2);
     }
 
     @Override
@@ -55,8 +73,17 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     }
 
     @Override
-    public E retrieve() {
-        set.retrieve();
+    public E retrieve(int i) {
+        set.goToFirst();
+        if (i == 1){
+            return (E) set.retrieve();
+        }
+        if (i <= size){
+            for(int j = 2; j <= i;){
+                set.goToNext();
+            }
+            return (E) set.retrieve();
+        }
         return null;
     }
 

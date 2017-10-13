@@ -132,7 +132,6 @@ public class List<E extends Comparable> implements ListInterface<E> {
         }
     }
 
-
     @Override
     public boolean goToLast() {
         if(isEmpty()){

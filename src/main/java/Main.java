@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import java.util.Scanner;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -15,47 +13,27 @@ public class Main {
 
     char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     char[] number = "0123456789".toCharArray();
-    HashMap<Identifier, String> storageIdentifiers = new HashMap<Identifier, String>();
+    HashMap<Identifier,Set> storage = new HashMap<>();
 
-    void storeIdenfifier(String input){
+    Identifier storeIdenfifier(String input){
         Identifier store = new Identifier();
         store.addFirst(input.charAt(0));
+
         for(int i=1; i<input.length();i++){
             if(isLetter(input.charAt(i))||isNumber(input.charAt(i))){
                 store.add(input.charAt(i));
-            }else{
+            } else if (space(input.charAt(i))){
+                // do nothing
+            }
+
+            else{
                 System.out.println("not expected character");
                 System.exit(1);
             }
 
         }
         System.out.println("stored: " + input );
-    }
-
-
-    void readStatement(String input) {
-        Scanner line = new Scanner(input);
-        storeIdenfifier(line.next());
-
-        if (line.hasNext()&&line.next().equals("=")) {
-            while (line.hasNext()) {
-                String check = line.next();
-                if (check.charAt(0) == '{' && input.charAt(input.length() - 1) == '}') {
-                    System.out.println("here come the numbers:");
-                    String printtest = line.nextLine();
-                    System.out.println(printtest);
-                }
-                else if (isLetter(check.charAt(0))){
-                    System.out.println("we should have a stored list for: " + check);
-                }
-                else if (check.charAt(0)=='-'||check.charAt(0)=='+'||check.charAt(0)=='*'||check.charAt(0)=='|'){
-                    System.out.println("calculate operator: " + check);
-                }
-            }
-        }else {
-            System.out.println("Wrong argument");
-            System.exit(1);
-        }
+        return store;
     }
 
     boolean space(char x){
@@ -65,23 +43,137 @@ public class Main {
         return false;
     }
 
-    void returnResults(String input){
+    void processLine(String in){
+        if(in.charAt(0) == '/'){
+            System.out.println("comment!");
+        } else if (isLetter(in.charAt(0))){
+            System.out.println("Assignment statement!");
+            processAssignment(in);
+        } else if (in.charAt(0) == '?'){
+            System.out.print("Print statement!");
+            processPrint(in);
+        } else{
+            System.out.println("Wrong argument!");
+        }
+    }
+
+    void processPrint(String in){
+        String identifier;
+        if(in.charAt(1) == ' '){
+            identifier = in.substring(2);
+        } else {
+            identifier = in.substring(1);
+        }
+        Set s = storage.get(identifier);
+        System.out.println(s);
+    }
+
+    void processAssignment(String in){
+        int i = 0;
+        while(!(in.charAt(i) == '=') && !(in.charAt(i) == ' ')){
+            i += 1;
+        }
+
+        Identifier name = storeIdenfifier(in.substring(0,i));
+
+        while(!(in.charAt(i) == '=')){
+            i+=1;
+        }
+        String equals = in.substring(i,i+1);
+
+        Set s = processExpression(in.substring(i+1,in.length()));
+        storage.put(name,s);
+    }
+
+    Set processExpression(String in){
+        int i = 0;
+
+        while(!(i == in.length())){
+            if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
+                String term = in.substring(0,i);
+                String operator = in.substring(i,i+1);
+                System.out.println("Operator is: " + operator);
+                Set set2 = processExpression(in.substring(i+1));
+                Set set1 = processTerm(term);
+
+                if(in.charAt(i) == '+') return set1.union(set2);
+                else if (in.charAt(i) == '-') return set1.complement(set2);
+                else if (in.charAt(i) == '|') return set1.indifference(set2);
+            }
+            i +=1;
+        }
+
+        System.out.println("Term is: " + in);
+        return processTerm(in);
+    }
+
+    Set processTerm(String in){
+        System.out.println("We will process the term: " + in);
+        int i = 0;
+        while (!(i == in.length())){
+            if(in.charAt(i) == '('){
+                System.out.println("Complex factor");
+            }
+
+            if(in.charAt(i) == '*'){
+                String factor = in.substring(0,i);
+                String operator = in.substring(i,i+1);
+                System.out.println("MOp: " + operator);
+                Set firstSet = processFactor(factor);
+                Set secondSet = processTerm(in.substring(i+1));
+                return firstSet.intersection(secondSet);
+            }
+            i +=1;
+        }
+        return processFactor(in);
+    }
+
+    Set processFactor(String in){
+        System.out.println("We will process factor:" + in);
+        int i = 0;
+        while(!(i == in.length())){
+            if(isLetter(in.charAt(i))){
+                Identifier name = storeIdenfifier(in.substring(i));
+                System.out.println("Identifier! The name is:" + name);
+                return(storage.get(name));
+            } else if(in.charAt(i) == '{'){
+                String set = in.substring(i);
+                System.out.println("SET! The set is:" + set);
+                Set s = new Set<BigInteger>();
+                return(processSet(s,set));
+            } else if(in.charAt(i) == '('){
+                String complexFactor = in.substring(i);
+                System.out.println("COMPLEX FACTOR!! The complex factor is: " + complexFactor);
+            }
+            i+=1;
+        }
+        return null;
 
     }
 
-    void processLine(String input){
-        Scanner line = new Scanner(input);
-        char start = line.next().charAt(0);
-        if(start=='/'){
-            System.out.println("comment!");
-        }else if(start=='?'){
-            System.out.println("statement");
-        }else if(isLetter(start)){
-            readStatement(input);
-        }else{
-            System.out.println("invalid!");
+    Set processSet(Set s, String in){
+        if(in.charAt(0) == '{' && (in.charAt(1) == '}' || (in.charAt(2) == '}'))){
+            System.out.println("Empty set!");
+            return s;
         }
 
+        if((in.charAt(0) == '{') && (in.charAt(in.length()-1) == '}')){
+            int i = 0;
+            while(!(i == in.length())){
+                if(isNumber(in.charAt(i))){
+                    String number = String.valueOf(in.charAt(i));
+                    int j = i+1;
+                    while(!(in.charAt(j) == ',') && !(in.charAt(j) == '}')){
+                        number += String.valueOf(in.charAt(j));
+                        j+=1;
+                    }
+                    i = j;
+                    s.add(new BigInteger(number));
+                }
+                i +=1;
+            }
+        }
+        return s;
     }
 
     boolean isLetter(char x){
@@ -104,15 +196,14 @@ public class Main {
         return false;
     }
 
-    void start() {
-        System.out.println("enter data:");
-        Scanner data = new Scanner(System.in);
-        while(data.hasNextLine()){
-            processLine(data.nextLine());
+    public void start(){
+        System.out.println("Enter data:");
+        Scanner in = new Scanner(System.in);
+        while(in.hasNextLine()){
+            String line = in.nextLine();
+            processLine(line);
         }
-
-        }
-
+    }
 
     public static void main(String[] argv) {
         new Main().start();

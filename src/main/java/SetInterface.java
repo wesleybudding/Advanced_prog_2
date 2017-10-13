@@ -15,22 +15,22 @@ public interface SetInterface<E extends Comparable> {
     /** @precondition  -
      *	@postcondition - Union of set s and set t is returned. What is the point of the parameter s and t, only one is needed. you can also just create a new set/ be more explainative
      **/
-    SetInterface<E> union(SetInterface t);
+    Set<E> union(Set t);
 
     /** @precondition  -
      *	@postcondition - Intersection of set s and set t is returned.
      **/
-    SetInterface<E> intersection(SetInterface t);
+    Set<E> intersection(Set t);
 
     /** @precondition  -
      *	@postcondition - The complement of set s and set t is returned. (s \ t)
      **/
-    SetInterface<E> complement(SetInterface t);
+    Set<E> complement(Set t);
 
     /** @precondition  -
      *	@postcondition - The symmetric indifference of set s and set t is returned.
      **/
-    SetInterface<E> indifference(SetInterface t);
+    Set<E> indifference(Set t);
 
     /** @precondition  - Elemend d has not to be in set
      *	@postcondition - Element d has been added to the Set
@@ -40,7 +40,7 @@ public interface SetInterface<E extends Comparable> {
     /** @precondition  - The set is not empty.
      *	@postcondition -The element d has been returned.
      */
-    E retrieve();
+    E retrieve(int index);
 
     /** @precondition  - The set is not empty.
      * 	@postcondition - The element is removed from the set.

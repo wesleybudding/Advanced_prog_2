@@ -2,8 +2,8 @@ public class Identifier implements IdentifierInterface{
 
     public static int MAX_POSITIONS=50;
 
-    int position;
-    char [] letters;
+    private int position;
+    private char [] letters;
 
     @Override
     public void addFirst(char charToStore) {

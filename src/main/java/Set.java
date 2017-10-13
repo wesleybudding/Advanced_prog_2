@@ -13,15 +13,15 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         Set result = new Set();
         int counter = 1;
 
-        while(counter < cardinality()){
+        while(counter <= cardinality()){
             result.add(retrieve(counter));
             counter++;
         }
 
         counter = 1;
 
-        while(counter < t.cardinality()){
-            result.add(retrieve(counter));
+        while(counter <= t.cardinality()){
+            result.add(t.retrieve(counter));
             counter++;
         }
         return result;
@@ -32,11 +32,11 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         Set result = new Set();
         int counter = 1;
 
-        while(counter < cardinality()){
+        while(counter <= cardinality()){
             if(t.isElement(retrieve(counter))){
                 result.add(retrieve(counter));
-                counter++;
             }
+            counter++;
         }
         return result;
     }
@@ -46,11 +46,11 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         Set result = new Set();
         int counter = 1;
 
-        while(counter < cardinality()){
+        while(counter <= cardinality()){
             if(!(t.isElement(retrieve(counter)))){
                 result.add(retrieve(counter));
-                counter++;
             }
+            counter++;
         }
         return  result;
     }
@@ -79,7 +79,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
             return (E) set.retrieve();
         }
         if (i <= size){
-            for(int j = 2; j <= i;){
+            for(int j = 2; j <= i;j++){
                 set.goToNext();
             }
             return (E) set.retrieve();

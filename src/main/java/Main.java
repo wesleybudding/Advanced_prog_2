@@ -8,14 +8,17 @@ import java.util.HashMap;
 
 // Parser/Interpreter afmaken:
 // - Support voor () toevoegen
-// - Zorgen dat Hashmap ook iets kan vinden -> hashcode class in Identifier?
 // - Exceptions adden waar nodig
 // - Cleanup
 
+// Hashmap werkt nu! Ik convert nu naar een String, dan werkt 'ie gewoon goed! Je moet nog maar ff naar die
+// Identfier inteface kijken, misschien dat jij denkt; hey dit kan zo beter.
+
 public class Main {
+
     private char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private char[] number = "0123456789".toCharArray();
-    private HashMap<Identifier,Set> storage = new HashMap<>();
+    private HashMap<String,Set> storage = new HashMap<>();
 
     private Identifier storeIdenfifier(String input) throws APException{
         Identifier store = new Identifier();
@@ -28,8 +31,15 @@ public class Main {
                 throw new APException("Not expected character. Identifier should start with a letter, and contain only letters and numbers.");
             }
         }
-        System.out.println("stored: " + input );
+//        System.out.println("stored: " + input );
         return store;
+    }
+
+    private void printSet(Set s){
+        for(int i = 1; i <= s.cardinality(); i++){
+            System.out.print(s.retrieve(i) + " ");
+        }
+        System.out.println();
     }
 
     private void processLine(String in) throws APException {
@@ -48,7 +58,7 @@ public class Main {
 
     private void processPrint(String in) throws APException{
         Set s = processExpression(in.substring(1));
-        System.out.println(s);
+        printSet(s);
     }
 
     private void processAssignment(String in) throws APException{
@@ -57,7 +67,7 @@ public class Main {
             i += 1;
         }
 
-        Identifier name = storeIdenfifier(in.substring(0,i));
+        Identifier identfier = storeIdenfifier(in.substring(0,i));
 
         while(!(in.charAt(i) == '=')){
             i+=1;
@@ -66,18 +76,17 @@ public class Main {
         System.out.println(equals);
 
         Set s = processExpression(in.substring(i+1,in.length()));
+        String name = identfier.getString();
         storage.put(name,s);
     }
 
     private Set processExpression(String in) throws APException{
+
         if(in.length() <= 1){
             throw new APException("Invalid input after '=' sign.");
         }
 
-        int i = 0;
-
-        while(!(i == in.length())){
-
+        for(int i = 0; i < in.length(); i++){
             if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
                 String term = in.substring(0,i);
                 String operator = in.substring(i,i+1);
@@ -89,7 +98,6 @@ public class Main {
                 else if (in.charAt(i) == '-') return set1.complement(set2);
                 else if (in.charAt(i) == '|') return set1.indifference(set2);
             }
-            i +=1;
         }
 
         System.out.println("Term is: " + in);
@@ -98,10 +106,13 @@ public class Main {
 
     private Set processTerm(String in) throws APException{
         System.out.println("We will process the term: " + in);
-        int i = 0;
-        while (!(i == in.length())){
+        for (int i = 0; i < in.length(); i++){
             if(in.charAt(i) == '('){
-                System.out.println("Complex factor");
+                if(countParentheses(in)){
+                    System.out.println("Complex factor");
+                } else {
+                    throw new APException("Parentheses do not match.");
+                }
             }
 
             if(in.charAt(i) == '*'){
@@ -112,55 +123,50 @@ public class Main {
                 Set secondSet = processTerm(in.substring(i+1));
                 return firstSet.intersection(secondSet);
             }
-            i +=1;
         }
         return processFactor(in);
     }
 
     private Set processFactor(String in) throws APException{
         System.out.println("We will process factor:" + in);
-        int i = 0;
-        while(!(i == in.length())){
-            if(isLetter(in.charAt(i))){
+
+        for(int i = 0; i < in.length(); i++) {
+            if (isLetter(in.charAt(i))) {
                 Identifier name = storeIdenfifier(in.substring(i));
                 System.out.println("Identifier! The name is:" + name);
-                return(storage.get(name));
-            } else if(in.charAt(i) == '{'){
+                return (storage.get(name.getString()));
+            } else if (in.charAt(i) == '{') {
                 String set = in.substring(i);
                 System.out.println("SET! The set is:" + set);
                 Set s = new Set<BigInteger>();
-                return(processSet(s,set));
-            } else if(in.charAt(i) == '('){
-                String complexFactor = in.substring(i);
-                System.out.println("COMPLEX FACTOR!! The complex factor is: " + complexFactor);
+                return (processSet(s, set));
             }
-            i+=1;
         }
-        return null;
-
+        throw new APException("Input not valid.");
     }
 
-    private Set processSet(Set s, String in){
+    private Set processSet(Set s, String in) throws APException{
         if(in.charAt(0) == '{' && (in.charAt(1) == '}' || (!isNumber(in.charAt(1)) && (in.charAt(2) == '}')))){
             System.out.println("Empty set!");
             return s;
         }
 
         if((in.charAt(0) == '{') && ((in.charAt(in.length()-1) == '}') || (in.charAt(in.length() -2) == '}') )){
-            int i = 0;
-            while(!(i == in.length())){
+
+            for(int i = 0; i < in.length(); i++){
                 if(isNumber(in.charAt(i))){
                     StringBuilder number = new StringBuilder(String.valueOf(in.charAt(i)));
                     int j = i+1;
-                    while(!(in.charAt(j) == ',') && !(in.charAt(j) == '}')){
+                    while(!(in.charAt(j) == ',') && !(in.charAt(j) == '}') && !(in.charAt(j) == ' ')){
                         number.append(String.valueOf(in.charAt(j)));
                         j+=1;
                     }
                     i = j;
                     s.add(new BigInteger(number.toString()));
                 }
-                i +=1;
             }
+        } else {
+            throw new APException("Set not valid.");
         }
         return s;
     }
@@ -183,6 +189,21 @@ public class Main {
             }
         }
         return false;
+    }
+
+    private boolean countParentheses(String in){
+        int i = 0;
+        int leftParentheses = 0;
+        int rightParentheses = 0;
+        while(i < in.length()){
+            if(in.charAt(i) == '('){
+                leftParentheses++;
+            } else if(in.charAt(i) == ')'){
+                rightParentheses++;
+            }
+            i++;
+        }
+        return leftParentheses == rightParentheses;
     }
 
     public void start() throws APException{
@@ -241,3 +262,5 @@ Comment:
 - Line of text
 rein = {1, 2, 5, 16} | {2, 3, 4, 5}
  */
+
+

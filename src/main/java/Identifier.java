@@ -1,31 +1,34 @@
-public class Identifier implements IdentifierInterface{
+import java.util.Objects;
 
-    public static int MAX_POSITIONS=50;
+public class Identifier implements IdentifierInterface {
 
-    private int position;
-    private char [] letters;
+    private String identifierString;
 
     @Override
     public void addFirst(char charToStore) {
-        letters = new char[MAX_POSITIONS];
-        position=0;
-        letters[position]=charToStore;
-        position++;
+        identifierString += String.valueOf(charToStore);
     }
 
     @Override
     public void add(char charToStore) {
-        letters[position]=charToStore;
-        position++;
+        identifierString += String.valueOf(charToStore);
     }
 
     @Override
     public char get(char p) {
-        return letters[p];
+        return p;
+    }
+
+    public String getString(){
+        return identifierString;
     }
 
     @Override
     public int size() {
-        return position;
+        return identifierString.length();
+    }
+
+    @Override public int hashCode(){
+        return Objects.hash(identifierString);
     }
 }

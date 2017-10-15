@@ -31,7 +31,6 @@ public class Main {
                 throw new APException("Not expected character. Identifier should start with a letter, and contain only letters and numbers.");
             }
         }
-//        System.out.println("stored: " + input );
         return store;
     }
 
@@ -51,6 +50,8 @@ public class Main {
         } else if (in.charAt(0) == '?'){
             System.out.print("Print statement!");
             processPrint(in);
+        } else if(!countParentheses(in)){
+            throw new APException("amount of parentheses is not correct!");
         } else{
             throw new APException("Incorrect input. Input should start with letter, slash, or question mark.");
         }
@@ -81,10 +82,19 @@ public class Main {
     }
 
     private Set processExpression(String in) throws APException{
+        System.out.println("processExpression :" + in);
+        int sets=0;
+        Set[] result = new Set[100];
 
         if(in.length() <= 1){
             throw new APException("Invalid input after '=' sign.");
         }
+
+//        for(int i = 0; i < in.length(); i++){
+//            if(isLetter(in.charAt(i))){
+//                result[sets] = processFactor(in.substring());
+//            }
+//        }
 
         for(int i = 0; i < in.length(); i++){
             if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
@@ -93,11 +103,11 @@ public class Main {
                 System.out.println("Operator is: " + operator);
                 Set set1 = processTerm(term);
                 Set set2 = processExpression(in.substring(i+1));
-
                 if(in.charAt(i) == '+') return set1.union(set2);
                 else if (in.charAt(i) == '-') return set1.complement(set2);
                 else if (in.charAt(i) == '|') return set1.indifference(set2);
             }
+
         }
 
         System.out.println("Term is: " + in);
@@ -107,13 +117,6 @@ public class Main {
     private Set processTerm(String in) throws APException{
         System.out.println("We will process the term: " + in);
         for (int i = 0; i < in.length(); i++){
-            if(in.charAt(i) == '('){
-                if(countParentheses(in)){
-                    System.out.println("Complex factor");
-                } else {
-                    throw new APException("Parentheses do not match.");
-                }
-            }
 
             if(in.charAt(i) == '*'){
                 String factor = in.substring(0,i);
@@ -198,8 +201,10 @@ public class Main {
         while(i < in.length()){
             if(in.charAt(i) == '('){
                 leftParentheses++;
+                System.out.println(leftParentheses+ " aantal (");
             } else if(in.charAt(i) == ')'){
                 rightParentheses++;
+                System.out.println(rightParentheses+ " aantal )");
             }
             i++;
         }

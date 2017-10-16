@@ -41,7 +41,7 @@ public class Main {
 
     private void printSet(Set s){
         if(s.isEmpty()){
-            System.out.println("");
+            System.out.println("No results in set");
         } else{
             for(int i = 1; i <= s.cardinality(); i++){
                 System.out.print(s.retrieve(i) + " ");
@@ -52,12 +52,11 @@ public class Main {
 
     private void processLine(String in) throws APException {
         if(in.charAt(0) == '/'){
-            System.out.println("comment!");
+            System.out.println("comment! not processing this line:" + in);
         } else if (isLetter(in.charAt(0))){
-            System.out.println("Assignment statement!");
+
             processAssignment(in);
         } else if (in.charAt(0) == '?'){
-            System.out.print("Print statement!");
             processPrint(in);
         } else if(!countParentheses(in)){
             throw new APException("amount of parentheses is not correct!");
@@ -83,7 +82,6 @@ public class Main {
             i+=1;
         }
         String equals = in.substring(i,i+1);
-        System.out.println(equals);
 
         Set s = processExpression(in.substring(i+1,in.length()));
         String name = identfier.getString();
@@ -94,10 +92,10 @@ public class Main {
 
         int endBracket =  FindClosingParentheses(in,startPosition+1);
         String term1 = in.substring(startPosition+1,endBracket);
-        System.out.println("TERM: " + term1);
+
         if(endBracket +2 < in.length()){
             String rest = in.substring(endBracket+1);
-            System.out.println("REST: " + rest);
+
 
             for(int j = 0; j < rest.length(); j++){
                 if((rest.charAt(j) == '+')){
@@ -133,7 +131,7 @@ public class Main {
 
         for(int i = 0; i < in.length(); i++){
             if (in.charAt(i) == '(') {
-                System.out.print("Complex Factor!");
+
                 return processComplexFactor(in,i);
             }
 
@@ -141,7 +139,7 @@ public class Main {
             if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
                 String term = in.substring(0,i);
                 String operator = in.substring(i,i+1);
-                System.out.println("Operator is: " + operator);
+
                 Set set1 = processTerm(term);
                 Set set2 = processExpression(in.substring(i+1));
                 if(in.charAt(i) == '+') return set1.union(set2);
@@ -151,18 +149,17 @@ public class Main {
 
         }
 
-        System.out.println("Term is: " + in);
+
         return processTerm(in);
     }
 
     private Set processTerm(String in) throws APException{
-        System.out.println("We will process the term: " + in);
+
         for (int i = 0; i < in.length(); i++){
 
             if(in.charAt(i) == '*'){
                 String factor = in.substring(0,i);
                 String operator = in.substring(i,i+1);
-                System.out.println("Multiplicative Operator: " + operator);
                 Set firstSet = processFactor(factor);
                 Set secondSet = processTerm(in.substring(i+1));
                 return firstSet.intersection(secondSet);
@@ -172,16 +169,16 @@ public class Main {
     }
 
     private Set processFactor(String in) throws APException{
-        System.out.println("We will process factor:" + in);
+
 
         for(int i = 0; i < in.length(); i++) {
             if (isLetter(in.charAt(i))) {
                 Identifier name = storeIdenfifier(in.substring(i));
-                System.out.println("Identifier! The name is:" + name);
+
                 return (storage.get(name.getString()));
             } else if (in.charAt(i) == '{') {
                 String set = in.substring(i);
-                System.out.println("SET! The set is:" + set);
+
                 Set s = new Set<BigInteger>();
                 return (processSet(s, set));
             }
@@ -191,7 +188,6 @@ public class Main {
 
     private Set processSet(Set s, String in) throws APException{
         if(in.charAt(0) == '{' && (in.charAt(1) == '}' || (!isNumber(in.charAt(1)) && (in.charAt(2) == '}')))){
-            System.out.println("Empty set!");
             return s;
         }
 
@@ -258,10 +254,10 @@ public class Main {
         while(i < in.length()){
             if(in.charAt(i) == '('){
                 leftParentheses++;
-                //System.out.println(leftParentheses+ " aantal (");
+
             } else if(in.charAt(i) == ')'){
                 rightParentheses++;
-                //System.out.println(rightParentheses+ " aantal )");
+
             }
             i++;
         }
@@ -269,11 +265,18 @@ public class Main {
     }
 
     public void start() throws APException{
-        System.out.println("Enter data:");
+        System.out.println("Enter data: (q to quit)");
         Scanner in = new Scanner(System.in);
         while(in.hasNextLine()){
             String line = in.nextLine();
-            processLine(line);
+            if(line.equals("q")){
+                System.out.println("bye i'm quiting");
+                System.exit(1);
+            }else if(!line.equals("")){
+                processLine(line);
+            }else{
+                System.out.println("Enter data: (q to quit)");
+            }
         }
     }
 
@@ -282,6 +285,7 @@ public class Main {
             new Main().start();
         } catch (APException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }

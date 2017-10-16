@@ -1,16 +1,23 @@
 import java.util.Objects;
 
 public class Identifier implements IdentifierInterface {
-
+    private static int MAX_CHAR=100;
     private String identifierString;
+    char[] storedChar = new char[MAX_CHAR];
+    int charCount;
+
 
     @Override
     public void addFirst(char charToStore) {
-        identifierString += String.valueOf(charToStore);
+        charCount=0;
+        storedChar[charCount]=charToStore;
+        charCount++;
     }
 
     @Override
     public void add(char charToStore) {
+        storedChar[charCount]=charToStore;
+        charCount++;
         identifierString += String.valueOf(charToStore);
     }
 
@@ -20,12 +27,16 @@ public class Identifier implements IdentifierInterface {
     }
 
     public String getString(){
+        identifierString = "";
+        for(int i=0; i < charCount; i++){
+            identifierString += storedChar[i];
+        }
         return identifierString;
     }
 
     @Override
     public int size() {
-        return identifierString.length();
+        return charCount;
     }
 
     @Override public int hashCode(){

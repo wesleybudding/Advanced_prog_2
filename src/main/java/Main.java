@@ -14,6 +14,9 @@ import java.util.HashMap;
 // Hashmap werkt nu! Ik convert nu naar een String, dan werkt 'ie gewoon goed! Je moet nog maar ff naar die
 // Identfier inteface kijken, misschien dat jij denkt; hey dit kan zo beter.
 
+
+//(( { 12, 18, 13, 1, 14 } + { 100, 400, 200 } ) * { 300, 100, 200 }) checken
+
 public class Main {
 
     private char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
@@ -27,6 +30,8 @@ public class Main {
         for(int i=1; i<input.length();i++){
             if(isLetter(input.charAt(i))||isNumber(input.charAt(i))) {
                 store.add(input.charAt(i));
+            } else if(input.charAt(i) == ' '){
+                // Do nothing
             } else{
                 throw new APException("Not expected character. Identifier should start with a letter, and contain only letters and numbers.");
             }
@@ -35,8 +40,12 @@ public class Main {
     }
 
     private void printSet(Set s){
-        for(int i = 1; i <= s.cardinality(); i++){
-            System.out.print(s.retrieve(i) + " ");
+        if(s.isEmpty()){
+            System.out.println("");
+        } else{
+            for(int i = 1; i <= s.cardinality(); i++){
+                System.out.print(s.retrieve(i) + " ");
+            }
         }
         System.out.println();
     }
@@ -81,22 +90,54 @@ public class Main {
         storage.put(name,s);
     }
 
-    private Set processExpression(String in) throws APException{
-        System.out.println("processExpression :" + in);
-        int sets=0;
-        Set[] result = new Set[100];
+    private Set processComplexFactor(String in, int startPosition) throws APException{
 
-        if(in.length() <= 1){
+        int endBracket =  FindClosingParentheses(in,startPosition+1);
+        String term1 = in.substring(startPosition+1,endBracket);
+        System.out.println("TERM: " + term1);
+        if(endBracket +2 < in.length()){
+            String rest = in.substring(endBracket+1);
+            System.out.println("REST: " + rest);
+
+            for(int j = 0; j < rest.length(); j++){
+                if((rest.charAt(j) == '+')){
+                    Set set1 = processExpression(term1);
+                    Set set2 = processExpression(rest.substring(j+1));
+                    return set1.union(set2);
+                }
+                if((rest.charAt(j) == '-')){
+                    Set set1 = processExpression(term1);
+                    Set set2 = processExpression(rest.substring(j+1));
+                    return set1.complement(set2);
+                }
+                if((rest.charAt(j) == '|')){
+                    Set set1 = processExpression(term1);
+                    Set set2 = processExpression(rest.substring(j+1));
+                    return set1.indifference(set2);
+                }
+                if((rest.charAt(j) == '*')){
+                    Set set1 = processExpression(term1);
+                    Set set2 = processExpression(rest.substring(j+1));
+                    return set1.intersection(set2);
+                }
+            }
+        }
+        return processExpression(term1);
+    }
+
+    private Set processExpression(String in) throws APException{
+
+        if(in.length() < 1){
             throw new APException("Invalid input after '=' sign.");
         }
 
-//        for(int i = 0; i < in.length(); i++){
-//            if(isLetter(in.charAt(i))){
-//                result[sets] = processFactor(in.substring());
-//            }
-//        }
-
         for(int i = 0; i < in.length(); i++){
+            if (in.charAt(i) == '(') {
+                System.out.print("Complex Factor!");
+                return processComplexFactor(in,i);
+            }
+
+
             if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
                 String term = in.substring(0,i);
                 String operator = in.substring(i,i+1);
@@ -174,9 +215,25 @@ public class Main {
         return s;
     }
 
+    private int FindClosingParentheses(String in, int startPosition){
+        int i = startPosition;
+
+        int counter = 1;
+        while(counter > 0){
+            if(in.charAt(i) == '('){
+                counter++;
+            }
+            if(in.charAt(i) == ')'){
+                counter--;
+            }
+            i++;
+        }
+        return i-1;
+    }
+
     private boolean isLetter(char x){
         Character check = x;
-        for(int i = 0; i<51; i++){
+        for(int i = 0; i<=51; i++){
             if(check.equals(letter[i])){
                 return true;
             }
@@ -186,7 +243,7 @@ public class Main {
 
     private boolean isNumber(char x){
         Character check = x;
-        for(int i = 0; i<9; i++){
+        for(int i = 0; i<=9; i++){
             if(check.equals(number[i])){
                 return true;
             }
@@ -201,10 +258,10 @@ public class Main {
         while(i < in.length()){
             if(in.charAt(i) == '('){
                 leftParentheses++;
-                System.out.println(leftParentheses+ " aantal (");
+                //System.out.println(leftParentheses+ " aantal (");
             } else if(in.charAt(i) == ')'){
                 rightParentheses++;
-                System.out.println(rightParentheses+ " aantal )");
+                //System.out.println(rightParentheses+ " aantal )");
             }
             i++;
         }
@@ -267,5 +324,3 @@ Comment:
 - Line of text
 rein = {1, 2, 5, 16} | {2, 3, 4, 5}
  */
-
-

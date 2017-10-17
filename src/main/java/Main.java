@@ -3,17 +3,20 @@ import java.math.BigInteger;
 import java.util.HashMap;
 
 
-// Lucas: LIST & SET operation afmaken.
-// Wesley: Identifier, EBNF method, hashmap
-
-// Parser/Interpreter afmaken:
-// - Support voor () toevoegen
 // - Exceptions adden waar nodig
 // - Cleanup
+// Zorgen dat achter een set assignment niet nog iets kan komen; als er geen operator achter staat -> Error
+// BV: Wim = {1,2,3} Ape = {3}
+// Of ? ( {1} {2} )
 
-// Hashmap werkt nu! Ik convert nu naar een String, dan werkt 'ie gewoon goed! Je moet nog maar ff naar die
-// Identfier inteface kijken, misschien dat jij denkt; hey dit kan zo beter.
 
+// BigInteger -> CompareTo werkt niet goed?
+// Set Find werkt misschien niet goed ? List werkte gewoon
+
+// Moeten methods als start() public of private?
+// Output gelijk aan example output?
+// Mogen we gewoon 'throws APException' gebruiken? Of overal try-catch (denk het niet)
+// Kan hashmap gewoon de String storen? Of moet 'ie echt de identifier storen?
 
 //(( { 12, 18, 13, 1, 14 } + { 100, 400, 200 } ) * { 300, 100, 200 }) checken
 
@@ -51,15 +54,16 @@ public class Main {
     }
 
     private void processLine(String in) throws APException {
-        if(in.charAt(0) == '/'){
+        if(!countParentheses(in)){
+            throw new APException("amount of parentheses is not correct!");
+        }
+        else if(in.charAt(0) == '/'){
             System.out.println("comment! not processing this line:" + in);
         } else if (isLetter(in.charAt(0))){
 
             processAssignment(in);
         } else if (in.charAt(0) == '?'){
             processPrint(in);
-        } else if(!countParentheses(in)){
-            throw new APException("amount of parentheses is not correct!");
         } else{
             throw new APException("Incorrect input. Input should start with letter, slash, or question mark.");
         }
@@ -148,8 +152,6 @@ public class Main {
             }
 
         }
-
-
         return processTerm(in);
     }
 
@@ -174,8 +176,12 @@ public class Main {
         for(int i = 0; i < in.length(); i++) {
             if (isLetter(in.charAt(i))) {
                 Identifier name = storeIdenfifier(in.substring(i));
-
-                return (storage.get(name.getString()));
+                Set s = storage.get(name.getString());
+                if(s == null){
+                    throw new APException("Set not found.");
+                } else{
+                    return s;
+                }
             } else if (in.charAt(i) == '{') {
                 String set = in.substring(i);
 

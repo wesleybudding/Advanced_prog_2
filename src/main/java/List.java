@@ -57,7 +57,6 @@ public class List<E extends Comparable> implements ListInterface<E> {
         } else{
             Node newNode;
             find(d);
-
             if ((currentNode == head) && (currentNode.data.compareTo(d) > 0)){
                 newNode = new Node(d,null,currentNode);
                 head = newNode;

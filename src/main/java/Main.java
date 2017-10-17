@@ -265,6 +265,7 @@ public class Main {
     }
 
     public void start() throws APException{
+
         System.out.println("Enter data: (q to quit)");
         Scanner in = new Scanner(System.in);
         while(in.hasNextLine()){

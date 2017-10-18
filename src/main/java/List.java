@@ -121,25 +121,6 @@ public class List<E extends Comparable> implements ListInterface<E> {
                 return false;
             }
         }
-//        if (goToLast()) {
-//
-//            while ((!currentNode.data.equals(d)) && (currentNode.data.compareTo(d) > 0)) {
-//                if (currentNode.prior == null) {
-//                    return false;
-//                } else {
-//                    currentNode = currentNode.prior;
-//                }
-//            }
-//
-//            if(currentNode.data.equals(d)){
-//                return true;
-//            }else{
-//                return false;
-//            }
-//        } else {
-//            currentNode = null;
-//            return false;
-//        }
         return false;
     }
 

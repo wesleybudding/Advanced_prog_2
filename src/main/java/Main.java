@@ -23,16 +23,20 @@ public class Main {
         for(int i=1; i<input.length();i++){
             if(isLetter(input.charAt(i))||isNumber(input.charAt(i))) {
                 store.add(input.charAt(i));
-            } else if(input.charAt(i) == ' '){
-                // Do nothing
-            } else{
+
+            } else if (input.charAt(i) == ' ' && i == input.length() -1){
+               return store;
+            }
+            else if ((input.charAt(i) == ' ') && ((isNumber(input.charAt(i+1))) || (isLetter(input.charAt(i+1))))){
+                throw new APException("No spaces allowed in Identifier");
+            } else {
                 throw new APException("Not expected character. Identifier should start with a letter, and contain only letters and numbers.");
             }
         }
         return store;
     }
 
-    public void printSet(Set<BigInteger> s){
+    private void printSet(Set<BigInteger> s){
         if(s.isEmpty()){
 
         } else{
@@ -77,18 +81,20 @@ public class Main {
         Identifier identfier = storeIdenfifier(in.substring(0,i));
 
         while(!(in.charAt(i) == '=')){
-            i+=1;
+            if(i == in.length() -1){
+                throw new APException("No equals sign found.");
+            } else {
+                i+=1;
+            }
         }
-        String equals = in.substring(i,i+1);
-
-        Set<BigInteger> s = processExpression(in.substring(i+1,in.length()));
-        String name = identfier.getString();
-        storage.put(name,s);
+            Set<BigInteger> s = processExpression(in.substring(i+1,in.length()));
+            String name = identfier.getString();
+            storage.put(name,s);
     }
 
     private Set<BigInteger> processComplexFactor(String in, int startPosition) throws APException{
 
-        int endBracket =  FindClosingParentheses(in,startPosition+1);
+        int endBracket =  findClosingParentheses(in,startPosition+1);
         String term1 = in.substring(startPosition+1,endBracket);
 
         if(endBracket +2 < in.length()){
@@ -128,20 +134,20 @@ public class Main {
         }
 
         for(int i = 0; i < in.length(); i++){
-            if (in.charAt(i) == '(') {
+            char next = in.charAt(i);
+
+            if (next == '(') {
                 return processComplexFactor(in,i);
             }
 
-
-            if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
+            if((next == '+') || (next == '-') || (next == '|')){
                 String term = in.substring(0,i);
-                String operator = in.substring(i,i+1);
 
                 Set<BigInteger> set1 = processTerm(term);
                 Set<BigInteger> set2 = processExpression(in.substring(i+1));
-                if(in.charAt(i) == '+') return set1.union(set2);
-                else if (in.charAt(i) == '-') return set1.complement(set2);
-                else if (in.charAt(i) == '|') return set1.indifference(set2);
+                if(next == '+') return set1.union(set2);
+                else if (next == '-') return set1.complement(set2);
+                else if (next == '|') return set1.indifference(set2);
             }
 
         }
@@ -154,7 +160,6 @@ public class Main {
 
             if(in.charAt(i) == '*'){
                 String factor = in.substring(0,i);
-                String operator = in.substring(i,i+1);
                 Set<BigInteger> firstSet = processFactor(factor);
                 Set<BigInteger> secondSet = processTerm(in.substring(i+1));
                 return firstSet.intersection(secondSet);
@@ -225,7 +230,7 @@ public class Main {
         return new BigInteger(in);
     }
 
-    private int FindClosingParentheses(String in, int startPosition){
+    private int findClosingParentheses(String in, int startPosition){
         int i = startPosition;
 
         int counter = 1;
@@ -315,7 +320,6 @@ public class Main {
         }
         return ((leftBrackets+rightBrackets)/4) < operations;
     }
-
 
     public void start() throws APException{
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 // Zorgen dat sets geen - nummers hebben
 // Zorgen dat niet twee sets achter elkaar krijgt ({}({4}))
-// Aanpassen: eerste haakje sluit } vinden
 // Kijken naar set: Geen lege plekken, geen spaties tussen getallen
+// Aanpassen: eerste haakje sluit } vinden
 // Equals sign bij assignment
 // Exceptions throwend
 

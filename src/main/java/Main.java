@@ -2,28 +2,18 @@ import java.util.Scanner;
 import java.math.BigInteger;
 import java.util.HashMap;
 
+// Zorgen dat sets geen - nummers hebben
+// Zorgen dat niet twee sets achter elkaar krijgt ({}({4}))
+// Aanpassen: eerste haakje sluit } vinden
+// Kijken naar set: Geen lege plekken, geen spaties tussen getallen
+// Equals sign bij assignment
+// Exceptions throwen
 
-// - Exceptions adden waar nodig
-// - Cleanup
-// Zorgen dat achter een set assignment niet nog iets kan komen; als er geen operator achter staat -> Error
-// BV: Wim = {1,2,3} Ape = {3}
-// Of ? ( {1} {2} )
-
-
-// BigInteger -> CompareTo werkt niet goed?
-// Set Find werkt misschien niet goed ? List werkte gewoon
-
-// Moeten methods als start() public of private?
-// Output gelijk aan example output?
-// Mogen we gewoon 'throws APException' gebruiken? Of overal try-catch (denk het niet)
-// Kan hashmap gewoon de String storen? Of moet 'ie echt de identifier storen?
-
-//(( { 12, 18, 13, 1, 14 } + { 100, 400, 200 } ) * { 300, 100, 200 }) checken
 
 public class Main {
 
     private char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    private char[] number = "0123456789".toCharArray();
+    private char[] number = "123456789".toCharArray();
     private HashMap<String,Set> storage = new HashMap<>();
 
     private Identifier storeIdenfifier(String input) throws APException{
@@ -42,9 +32,9 @@ public class Main {
         return store;
     }
 
-    private void printSet(Set s){
+    public void printSet(Set<BigInteger> s){
         if(s.isEmpty()){
-            System.out.println("No results in set");
+            //System.out.println("No results in set");
         } else{
             for(int i = 1; i <= s.cardinality(); i++){
                 System.out.print(s.retrieve(i) + " ");
@@ -58,7 +48,7 @@ public class Main {
             throw new APException("amount of parentheses is not correct!");
         }
         else if(in.charAt(0) == '/'){
-            System.out.println("comment! not processing this line:" + in);
+            //System.out.println("comment! not processing this line:" + in);
         } else if (isLetter(in.charAt(0))){
 
             processAssignment(in);
@@ -70,7 +60,7 @@ public class Main {
     }
 
     private void processPrint(String in) throws APException{
-        Set s = processExpression(in.substring(1));
+        Set<BigInteger> s = processExpression(in.substring(1));
         printSet(s);
     }
 
@@ -87,12 +77,12 @@ public class Main {
         }
         String equals = in.substring(i,i+1);
 
-        Set s = processExpression(in.substring(i+1,in.length()));
+        Set<BigInteger> s = processExpression(in.substring(i+1,in.length()));
         String name = identfier.getString();
         storage.put(name,s);
     }
 
-    private Set processComplexFactor(String in, int startPosition) throws APException{
+    private Set<BigInteger> processComplexFactor(String in, int startPosition) throws APException{
 
         int endBracket =  FindClosingParentheses(in,startPosition+1);
         String term1 = in.substring(startPosition+1,endBracket);
@@ -103,23 +93,23 @@ public class Main {
 
             for(int j = 0; j < rest.length(); j++){
                 if((rest.charAt(j) == '+')){
-                    Set set1 = processExpression(term1);
-                    Set set2 = processExpression(rest.substring(j+1));
+                    Set<BigInteger> set1 = processExpression(term1);
+                    Set<BigInteger> set2 = processExpression(rest.substring(j+1));
                     return set1.union(set2);
                 }
                 if((rest.charAt(j) == '-')){
-                    Set set1 = processExpression(term1);
-                    Set set2 = processExpression(rest.substring(j+1));
+                    Set<BigInteger> set1 = processExpression(term1);
+                    Set<BigInteger> set2 = processExpression(rest.substring(j+1));
                     return set1.complement(set2);
                 }
                 if((rest.charAt(j) == '|')){
-                    Set set1 = processExpression(term1);
-                    Set set2 = processExpression(rest.substring(j+1));
+                    Set<BigInteger> set1 = processExpression(term1);
+                    Set<BigInteger> set2 = processExpression(rest.substring(j+1));
                     return set1.indifference(set2);
                 }
                 if((rest.charAt(j) == '*')){
-                    Set set1 = processExpression(term1);
-                    Set set2 = processExpression(rest.substring(j+1));
+                    Set<BigInteger>set1 = processExpression(term1);
+                    Set<BigInteger> set2 = processExpression(rest.substring(j+1));
                     return set1.intersection(set2);
                 }
             }
@@ -127,7 +117,7 @@ public class Main {
         return processExpression(term1);
     }
 
-    private Set processExpression(String in) throws APException{
+    private Set<BigInteger> processExpression(String in) throws APException{
 
         if(in.length() < 1){
             throw new APException("Invalid input after '=' sign.");
@@ -135,7 +125,6 @@ public class Main {
 
         for(int i = 0; i < in.length(); i++){
             if (in.charAt(i) == '(') {
-
                 return processComplexFactor(in,i);
             }
 
@@ -144,8 +133,8 @@ public class Main {
                 String term = in.substring(0,i);
                 String operator = in.substring(i,i+1);
 
-                Set set1 = processTerm(term);
-                Set set2 = processExpression(in.substring(i+1));
+                Set<BigInteger> set1 = processTerm(term);
+                Set<BigInteger> set2 = processExpression(in.substring(i+1));
                 if(in.charAt(i) == '+') return set1.union(set2);
                 else if (in.charAt(i) == '-') return set1.complement(set2);
                 else if (in.charAt(i) == '|') return set1.indifference(set2);
@@ -155,28 +144,28 @@ public class Main {
         return processTerm(in);
     }
 
-    private Set processTerm(String in) throws APException{
+    private Set<BigInteger> processTerm(String in) throws APException{
 
         for (int i = 0; i < in.length(); i++){
 
             if(in.charAt(i) == '*'){
                 String factor = in.substring(0,i);
                 String operator = in.substring(i,i+1);
-                Set firstSet = processFactor(factor);
-                Set secondSet = processTerm(in.substring(i+1));
+                Set<BigInteger> firstSet = processFactor(factor);
+                Set<BigInteger> secondSet = processTerm(in.substring(i+1));
                 return firstSet.intersection(secondSet);
             }
         }
         return processFactor(in);
     }
 
-    private Set processFactor(String in) throws APException{
+    private Set<BigInteger> processFactor(String in) throws APException{
 
 
         for(int i = 0; i < in.length(); i++) {
             if (isLetter(in.charAt(i))) {
                 Identifier name = storeIdenfifier(in.substring(i));
-                Set s = storage.get(name.getString());
+                Set<BigInteger> s = storage.get(name.getString());
                 if(s == null){
                     throw new APException("Set not found.");
                 } else{
@@ -184,37 +173,52 @@ public class Main {
                 }
             } else if (in.charAt(i) == '{') {
                 String set = in.substring(i);
-
-                Set s = new Set<BigInteger>();
-                return (processSet(s, set));
+                return (processSet(set));
             }
         }
         throw new APException("Input not valid.");
     }
 
-    private Set processSet(Set s, String in) throws APException{
+    private Set<BigInteger> processSet(String in) throws APException{
+        Set<BigInteger> s = new Set<>();
+
+
         if(in.charAt(0) == '{' && (in.charAt(1) == '}' || (!isNumber(in.charAt(1)) && (in.charAt(2) == '}')))){
             return s;
         }
 
         if((in.charAt(0) == '{') && ((in.charAt(in.length()-1) == '}') || (in.charAt(in.length() -2) == '}') )){
 
-            for(int i = 0; i < in.length(); i++){
-                if(isNumber(in.charAt(i))){
-                    StringBuilder number = new StringBuilder(String.valueOf(in.charAt(i)));
-                    int j = i+1;
-                    while(!(in.charAt(j) == ',') && !(in.charAt(j) == '}') && !(in.charAt(j) == ' ')){
-                        number.append(String.valueOf(in.charAt(j)));
-                        j+=1;
-                    }
-                    i = j;
-                    s.add(new BigInteger(number.toString()));
-                }
-            }
+            return processRowNaturalNumbers(in.substring(1,in.length()-1), s);
+
         } else {
             throw new APException("Set not valid.");
         }
+    }
+
+    private Set<BigInteger> processRowNaturalNumbers(String in, Set s) throws APException{
+        for(int i = 0; i < in.length(); i++){
+            if(isNumber(in.charAt(i)) || in.charAt(i) == '0'){
+                int j = i;
+                while((j < in.length()) && !(in.charAt(j) == ',') && !(in.charAt(j) == '}') && !(in.charAt(j) == ' ')){
+                    j++;
+                }
+                s.add(processNaturalNumber(in.substring(i,j)));
+                i = j;
+            }
+        }
         return s;
+    }
+
+    private BigInteger processNaturalNumber(String in) throws APException{
+
+        if(in.charAt(0) == '0' && (in.length() == 1)){
+        } else if (isNumber(in.charAt(0))){
+        } else {
+            throw new APException("Number not allowed");
+        }
+
+        return new BigInteger(in);
     }
 
     private int FindClosingParentheses(String in, int startPosition){
@@ -245,7 +249,7 @@ public class Main {
 
     private boolean isNumber(char x){
         Character check = x;
-        for(int i = 0; i<=9; i++){
+        for(int i = 0; i<=8; i++){
             if(check.equals(number[i])){
                 return true;
             }

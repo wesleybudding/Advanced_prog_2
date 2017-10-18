@@ -35,7 +35,7 @@ public interface SetInterface<E extends Comparable> {
     /** @precondition  - Elemend d has not to be in set
      *	@postcondition - Element d has been added to the Set
      **/
-    SetInterface<E> add(E d);
+    Set<E> add(E d);
 
     /** @precondition  - The set is not empty.
      *	@postcondition -The element d has been returned.
@@ -45,7 +45,7 @@ public interface SetInterface<E extends Comparable> {
     /** @precondition  - The set is not empty.
      * 	@postcondition - The element is removed from the set.
      **/
-    SetInterface<E> remove(E d);
+    Set<E> remove(E d);
 
     /**
      * @precondition - The set is not empty.
@@ -64,8 +64,4 @@ public interface SetInterface<E extends Comparable> {
      *	@postcondition - The number of elements has been returned.
      **/
     int cardinality();
-
-    void firstElement();
-
-    void nextElement();
 }

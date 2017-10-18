@@ -1,16 +1,18 @@
+import java.math.BigInteger;
+
 public class Set<E extends Comparable> implements SetInterface<E> {
 
-    private List set;
+    private List<BigInteger> set;
     private int size;
 
     Set(){
-        set = new List();
+        set = new List<>();
         size = 0;
     }
 
     @Override
     public Set<E> union(Set t) {
-        Set result = new Set();
+        Set<E> result = new Set<>();
         int counter = 1;
 
         while(counter <= cardinality()){
@@ -21,7 +23,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         counter = 1;
 
         while(counter <= t.cardinality()){
-            result.add(t.retrieve(counter));
+            result.add((E) t.retrieve(counter));
             counter++;
         }
         return result;
@@ -29,7 +31,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     @Override
     public Set<E> intersection(Set t) {
-        Set result = new Set();
+        Set<E> result = new Set<>();
         int counter = 1;
 
         while(counter <= cardinality()){
@@ -43,7 +45,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     @Override
     public Set<E> complement(Set t) {
-        Set result = new Set();
+        Set<E> result = new Set<>();
         int counter = 1;
 
         while(counter <= cardinality()){
@@ -57,16 +59,16 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     @Override
     public Set<E> indifference(Set t) {
-        Set result1 = union(t);
-        Set result2 = intersection(t);
+        Set<E> result1 = union(t);
+        Set<E> result2 = intersection(t);
 
         return result1.complement(result2);
     }
 
     @Override
-    public SetInterface<E> add(E d) {
+    public Set<E> add(E d) {
         if(!isElement(d)){
-            set.insert(d);
+            set.insert((BigInteger) d);
             size++;
         }
         return this;
@@ -88,7 +90,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     }
 
     @Override
-    public SetInterface<E> remove(E d) {
+    public Set<E> remove(E d) {
         if(isElement(d)){
             set.remove();
             size--;
@@ -98,7 +100,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
 
     @Override
     public boolean isElement(E d) {
-        return set.find(d);
+        return set.find((BigInteger) d);
     }
 
     @Override
@@ -109,15 +111,5 @@ public class Set<E extends Comparable> implements SetInterface<E> {
     @Override
     public int cardinality() {
         return size;
-    }
-
-    @Override
-    public void firstElement(){
-        set.goToFirst();
-    }
-
-    @Override
-    public void nextElement(){
-        set.goToNext();
     }
 }

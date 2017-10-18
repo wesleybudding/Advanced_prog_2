@@ -7,7 +7,7 @@ import java.util.HashMap;
 // Aanpassen: eerste haakje sluit } vinden
 // Kijken naar set: Geen lege plekken, geen spaties tussen getallen
 // Equals sign bij assignment
-// Exceptions throwen
+// Exceptions throwend
 
 
 public class Main {

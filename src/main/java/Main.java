@@ -34,7 +34,7 @@ public class Main {
 
     public void printSet(Set<BigInteger> s){
         if(s.isEmpty()){
-            //System.out.println("No results in set");
+
         } else{
             for(int i = 1; i <= s.cardinality(); i++){
                 System.out.print(s.retrieve(i) + " ");
@@ -46,6 +46,10 @@ public class Main {
     private void processLine(String in) throws APException {
         if(!countParentheses(in)){
             throw new APException("amount of parentheses is not correct!");
+        }else if(!countBrackets(in)){
+            throw new APException("amount of brackets is not correct!");
+        }else if(!setsComparedToOperations(in)){
+            throw new APException("Amount operations missing for amount sets");
         }
         else if(in.charAt(0) == '/'){
             //System.out.println("comment! not processing this line:" + in);
@@ -273,6 +277,45 @@ public class Main {
         }
         return leftParentheses == rightParentheses;
     }
+
+    private boolean countBrackets(String in){
+        int i = 0;
+        int leftBrackets = 0;
+        int rightBrackets = 0;
+        while(i < in.length()){
+            if(in.charAt(i) == '{'){
+                leftBrackets++;
+
+            } else if(in.charAt(i) == '}'){
+                rightBrackets++;
+
+            }
+            i++;
+        }
+        return leftBrackets == rightBrackets;
+    }
+
+    private boolean setsComparedToOperations(String in){
+        int i = 0;
+        int leftBrackets = 0;
+        int rightBrackets = 0;
+        int operations=1;
+        while(i < in.length()){
+            if(in.charAt(i) == '+'||in.charAt(i) == '-'||in.charAt(i) == '*'||in.charAt(i) == '|'){
+                operations++;
+            }
+            else if(in.charAt(i) == '{'){
+                leftBrackets++;
+
+            } else if(in.charAt(i) == '}'){
+                rightBrackets++;
+
+            }
+            i++;
+        }
+        return ((leftBrackets+rightBrackets)/4) < operations;
+    }
+
 
     public void start() throws APException{
 

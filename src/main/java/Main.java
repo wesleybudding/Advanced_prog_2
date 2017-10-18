@@ -3,12 +3,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 
 // Zorgen dat sets geen - nummers hebben
-// Zorgen dat niet twee sets achter elkaar krijgt ({}({4}))
 // Kijken naar set: Geen lege plekken, geen spaties tussen getallen
-// Aanpassen: eerste haakje sluit } vinden
-// Equals sign bij assignment
-// Exceptions throwend
-
 
 public class Main {
 
@@ -190,6 +185,16 @@ public class Main {
 
     private Set<BigInteger> processSet(String in) throws APException{
         Set<BigInteger> s = new Set<>();
+        int i = 1;
+
+        while(in.charAt(i)!='}'){
+            if(isNumber(in.charAt(i))||in.charAt(i)==','||in.charAt(i)=='0'||in.charAt(i)==' '){
+                //just checking data in set.
+            }else {throw new APException("Set not valid data");}
+            i++;
+
+        }
+
 
 
         if(in.charAt(0) == '{' && (in.charAt(1) == '}' || (!isNumber(in.charAt(1)) && (in.charAt(2) == '}')))){

@@ -125,3 +125,11 @@ Vat={}
 Worm={}
 Zeven={}
 ? ((Aap+Beer)-Aap)+((Aap+Beer)-Aap)
+
+
+kees={1,2,3}
+kees={1,23,5}
+kees={1,23 ,5}
+kees={1,2 3 ,5}
+kees={1a}
+kees={01}

@@ -2,8 +2,7 @@ import java.util.Scanner;
 import java.math.BigInteger;
 import java.util.HashMap;
 
-// Zorgen dat sets geen - nummers hebben
-// Kijken naar set: Geen lege plekken, geen spaties tussen getallen
+// kijken hoe wim werkt syntax in
 
 public class Main {
 
@@ -54,7 +53,6 @@ public class Main {
         } else if (!setsComparedToOperations(in)) {
             throw new APException("Amount operations missing for amount sets");
         }  else if (isLetter(in.charAt(0))) {
-
             processAssignment(in);
         } else if (in.charAt(0) == '?') {
             processPrint(in);
@@ -69,10 +67,13 @@ public class Main {
     }
 
     private void processAssignment(String in) throws APException {
+
+
         int i = 0;
-        while (!(in.charAt(i) == '=') && !(in.charAt(i) == ' ')) {
+        while (i<in.length()-1 && !(in.charAt(i) == '=') && !(in.charAt(i) == ' ') ) {
             i += 1;
         }
+
 
         Identifier identfier = storeIdenfifier(in.substring(0, i));
 
@@ -217,18 +218,74 @@ public class Main {
 
     private Set<BigInteger> processSet(String in) throws APException {
         Set<BigInteger> s = new Set<>();
-        int startset = 0;
-        for (int i = 0; i < in.length(); i++) {
-            if (in.charAt(i) == '{' && startset == 0) {
-                startset = 1;
-            } else if (isNumber(in.charAt(i)) || in.charAt(i) == ',' || in.charAt(i) == '0' || in.charAt(i) == ' ') {
-                //continue
-            } else if (in.charAt(i) != '}') {
-                throw new APException("Set not valid data");
+        int startSet = 0, endSet = 0;
+        int start = 0;
+
+        for(int i = 0; i<in.length();i++){
+            if (in.charAt(i) == '{'){
+                startSet = i;
+            }else if(in.charAt(i) == '}'){
+                endSet = i;
+            }
+        }
+
+        String valuesInSet = in.substring(startSet+1,endSet);
+
+        if(checkValuesInString(valuesInSet)){
+            // only values in string
+        }else if(checkDoublevalues(valuesInSet)){
+            // no double values in string
+        }else if(isEmpty(valuesInSet)){
+            // empty string
+        }
+
+        return processRowNaturalNumbers(in.substring(startSet+1,endSet), s);
+    }
+
+    private boolean isEmpty(String in) throws APException{
+        for(int i=0; i<in.length();i++){
+            if(in.charAt(i) == ' '){
+                //check
+            }
+            else {
+                throw new APException("Invallid data in set(check is empty)" + in);
+            }
+        }
+        return true;
+    }
+
+    private boolean checkValuesInString(String in) throws APException{
+        for(int i=0; i<in.length();i++){
+            if(isNumber(in.charAt(i)) || in.charAt(i) == ',' || in.charAt(i) == '0' || in.charAt(i) == ' '){
+                // check
+            }else {
+                throw new APException("Invallid data in set(checkvaluesstring)" + in);
             }
 
         }
-        return processRowNaturalNumbers(in.substring(1, in.length() - 1), s);
+        return true;
+    }
+
+    private boolean checkDoublevalues(String in) throws APException{
+        Scanner setIn = new Scanner(in);
+        setIn.useDelimiter(",");
+
+        while(setIn.hasNext()){
+            String test = setIn.next();
+            System.out.println(test);
+            if(test.length()==0){
+                throw new APException("invalid data in set");
+            }else{
+                Scanner checkNumber = new Scanner(test);
+                String cn = checkNumber.next();
+                System.out.println("here" + cn);
+                if(checkNumber.hasNext()){
+                    throw new APException("invalid data in set");
+                }
+
+            }
+        }
+        return true;
     }
 
     private Set<BigInteger> processRowNaturalNumbers(String in, Set s) throws APException {

@@ -56,7 +56,6 @@ public class Main {
         } else if (!setsComparedToOperations(in)) {
             throw new APException("Amount operations missing for amount sets");
         }  else if (isLetter(in.charAt(0))) {
-
             processAssignment(in);
         } else if (in.charAt(0) == '?') {
             processPrint(in);

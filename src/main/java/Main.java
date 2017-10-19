@@ -278,7 +278,7 @@ public class Main {
 
         while(setIn.hasNext()){
             String test = setIn.next();
-            System.out.println("while testing:"+test+"counter"+counterComma);
+            
             if(test.length()==0) {
                 throw new APException("invalid data in set length");
             }

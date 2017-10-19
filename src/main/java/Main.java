@@ -51,6 +51,8 @@ public class Main {
             throw new APException("amount of parentheses is not correct!");
         } else if (!countBrackets(in)) {
             throw new APException("amount of brackets is not correct!");
+        }  else if (!countEqualssigns(in)) {
+            throw new APException("to many equal signs");
         } else if (!setsComparedToOperations(in)) {
             throw new APException("Amount operations missing for amount sets");
         }  else if (isLetter(in.charAt(0))) {
@@ -60,6 +62,20 @@ public class Main {
             processPrint(in);
         } else {
             throw new APException("Incorrect input. Input should start with letter, slash, or question mark.");
+        }
+    }
+
+    private boolean countEqualssigns(String in){
+        int countEquals=0;
+        for(int i=0;i<in.length();i++){
+            if(in.charAt(i) == '='){
+                countEquals++;
+            }
+        }
+        if(countEquals<=1){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -278,7 +294,7 @@ public class Main {
 
         while(setIn.hasNext()){
             String test = setIn.next();
-            
+
             if(test.length()==0) {
                 throw new APException("invalid data in set length");
             }

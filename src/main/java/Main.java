@@ -233,10 +233,8 @@ public class Main {
 
         if(checkValuesInString(valuesInSet)){
             // only values in string
-        }else if(checkDoublevalues(valuesInSet)){
+        }if(checkDoublevalues(valuesInSet)){
             // no double values in string
-        }else if(isEmpty(valuesInSet)){
-            // empty string
         }
 
         return processRowNaturalNumbers(in.substring(startSet+1,endSet), s);
@@ -248,7 +246,7 @@ public class Main {
                 //check
             }
             else {
-                throw new APException("Invallid data in set(check is empty)" + in);
+                return false;
             }
         }
         return true;
@@ -259,7 +257,7 @@ public class Main {
             if(isNumber(in.charAt(i)) || in.charAt(i) == ',' || in.charAt(i) == '0' || in.charAt(i) == ' '){
                 // check
             }else {
-                throw new APException("Invallid data in set(checkvaluesstring)" + in);
+                throw new APException("Invallid data in set(checkvaluesstring)");
             }
 
         }
@@ -267,23 +265,36 @@ public class Main {
     }
 
     private boolean checkDoublevalues(String in) throws APException{
+
         Scanner setIn = new Scanner(in);
         setIn.useDelimiter(",");
+        int counterComma=0;
+
+        for(int i=1;i<in.length();i++){
+            if(in.charAt(i)==','){
+                counterComma++;
+            }
+        }
 
         while(setIn.hasNext()){
             String test = setIn.next();
-            System.out.println(test);
-            if(test.length()==0){
-                throw new APException("invalid data in set");
-            }else{
-                Scanner checkNumber = new Scanner(test);
-                String cn = checkNumber.next();
-                System.out.println("here" + cn);
-                if(checkNumber.hasNext()){
-                    throw new APException("invalid data in set");
-                }
-
+            System.out.println("while testing:"+test+"counter"+counterComma);
+            if(test.length()==0) {
+                throw new APException("invalid data in set length");
             }
+            if(isEmpty(test)&&counterComma>=1){
+                throw new APException("invalid data in set empty");
+            }
+            Scanner checkNumber = new Scanner(test);
+                if(checkNumber.hasNext()) {
+                    String cn = checkNumber.next();
+                    if(isEmpty(cn)){
+                        throw new APException("invalid data in set empty 2");
+                    }
+                    if (checkNumber.hasNext()) {
+                        throw new APException("invalid data in set has next");
+                    }
+                }
         }
         return true;
     }

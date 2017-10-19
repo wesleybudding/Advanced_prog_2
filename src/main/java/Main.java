@@ -2,7 +2,8 @@ import java.util.Scanner;
 import java.math.BigInteger;
 import java.util.HashMap;
 
-// kijken hoe wim werkt syntax in
+// Zorgen dat sets geen - nummers hebben
+// Kijken naar set: Geen lege plekken, geen spaties tussen getallen
 
 public class Main {
 
@@ -53,6 +54,7 @@ public class Main {
         } else if (!setsComparedToOperations(in)) {
             throw new APException("Amount operations missing for amount sets");
         }  else if (isLetter(in.charAt(0))) {
+
             processAssignment(in);
         } else if (in.charAt(0) == '?') {
             processPrint(in);
@@ -67,8 +69,6 @@ public class Main {
     }
 
     private void processAssignment(String in) throws APException {
-
-
         int i = 0;
         while (i<in.length()-1 && !(in.charAt(i) == '=') && !(in.charAt(i) == ' ') ) {
             i += 1;
@@ -287,6 +287,8 @@ public class Main {
         }
         return true;
     }
+
+
 
     private Set<BigInteger> processRowNaturalNumbers(String in, Set s) throws APException {
         for (int i = 0; i < in.length(); i++) {

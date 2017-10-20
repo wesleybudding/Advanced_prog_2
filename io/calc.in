@@ -14,7 +14,7 @@ Karel = Karel
 ? Karel
 / start testcase Reinout van Schouwen
 rein = {1, 2, 5}
-rein = {1, 2, 5, 16} - {2, 3, 4, 5} 
+rein = {1, 2, 5, 16} - {2, 3, 4, 5}
 ?rein
 out = rein
 / Nu zouden dezelfde twee opdrachten eventueel fout kunnen gaan.
@@ -23,7 +23,7 @@ rein = {1, 2, 5, 16} - {2, 3, 4, 5}
 ?rein
 / eind testcase Reinout
 / start testcase Eline van Mantgem
-/ De volgende statements gaan verkeerd als de compareTo() in 
+/ De volgende statements gaan verkeerd als de compareTo() in
 / de Getal class niet goed werkt.
 A={1234567890, 2625242322}
 B={2}
@@ -70,7 +70,7 @@ Fiets = { 12, 18, 13, 1, 14 } + { 100, 400, 200 } * { 300, 100, 200 }
 ? Fiets
 Gauw = ( { 12, 18, 13, 1, 14 } + { 100, 400, 200 } ) * { 300, 100, 200 }
 ? Gauw
-? ((({ 300 } + { 200 }) * { 300 } ) - { 300 })
+? ((( { 300 } + { 200 } ) * { 300 } ) - { 300 } )
 ? (((( { 1 } ))) + (((( { 0 } )))))
 Cola = Beer + Cola + Dirk + Erik + Fiets + Gauw
 ? Cola
@@ -124,12 +124,3 @@ Yeti={}
 Vat={}
 Worm={}
 Zeven={}
-? ((Aap+Beer)-Aap)+((Aap+Beer)-Aap)
-
-
-kees={1,2,3}
-kees={1,23,5}
-kees={1,23 ,5}
-kees={1,2 3 ,5}
-kees={1a}
-kees={01}

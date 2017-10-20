@@ -48,7 +48,7 @@ public class Set<E extends Comparable> implements SetInterface<E> {
         Set<E> result = new Set<>();
         int counter = 1;
 
-        while(counter <= cardinality()){
+        while(counter != cardinality() + 1){
             if(!(t.isElement(retrieve(counter)))){
                 result.add(retrieve(counter));
             }

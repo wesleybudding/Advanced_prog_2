@@ -44,7 +44,6 @@ public class List<E extends Comparable> implements ListInterface<E> {
         return this;
     }
 
-
     @Override
     public int size() {
         return size;
@@ -52,23 +51,27 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
     @Override
     public ListInterface<E> insert(E d) {
+        find(d);
 
         if(isEmpty()){
             head = new Node(d,null,null);
             currentNode = head;
             size++;
         } else {
-            if((currentNode.data.compareTo(d) == 1) && (currentNode == head)){
+            if((currentNode.data.compareTo(d) > 0) && (currentNode == head)){
                 Node newNode = new Node(d,currentNode.prior,currentNode);
                 currentNode.prior = newNode;
                 head = newNode;
-            } else if (currentNode.data.compareTo(d) == 1){
+                currentNode = newNode;
+            } else if (currentNode.data.compareTo(d) > 0){
                 Node newNode = new Node(d,currentNode.prior,currentNode);
                 currentNode.prior = newNode;
                 newNode.prior.next = newNode;
-            } else if (currentNode.data.compareTo(d) == -1){
-                Node newNode = new Node(d,currentNode,currentNode.next);
+                currentNode = newNode;
+            } else if (currentNode.data.compareTo(d) < 0 || (currentNode.data.compareTo(d) == 0)) {
+                Node newNode = new Node(d, currentNode, currentNode.next);
                 currentNode.next = newNode;
+                currentNode = newNode;
             }
             size++;
         }
@@ -107,7 +110,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
     public boolean find(E d) {
 
         if(goToFirst()){
-            while((currentNode.data.compareTo(d) != 1) && (currentNode.data.compareTo(d) != 0) && (currentNode.next != null)){
+            while((currentNode.data.compareTo(d) < 0) && currentNode.next != null){
                 currentNode = currentNode.next;
             }
 

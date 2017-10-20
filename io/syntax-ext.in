@@ -8,7 +8,7 @@
 / initialize Ape
 Ape = {1, 2, 3}
 / start testcase Brinio
-/ ?({}({1}))
+?({}({1}))
 / end testcase Brinio
 / Does the program see that two different that start with the same letter are
 // different?

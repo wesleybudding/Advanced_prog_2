@@ -42,9 +42,12 @@ public class Main {
     }
 
     private void processLine(String in) throws APException {
-        if (in.charAt(0) == '/') {
-            //Do nothing
-        } else if (!countParentheses(in)) {
+        for(int i = 0; i < in.length(); i++){
+            if (in.charAt(i) == '/') {
+                return;
+            }
+        }
+        if (!countParentheses(in)) {
             throw new APException("Amount of parentheses is not correct!");
         } else if (!countBrackets(in)) {
             throw new APException("Amount of brackets is not correct!");
@@ -136,6 +139,16 @@ public class Main {
         for(int i = 0; i < in.length(); i++){
             if (in.charAt(i) == '(') {
                 i = findClosingParentheses(in,i+1);
+            }
+
+            if(in.charAt(i) == '{'){
+                if(in.length() > 3){
+                    int end = findBracketEnd(in,i+1);
+                    if(i != end){
+                        checkValuesInString(in.substring(i+1,end));
+                    }
+                }
+
             }
 
             if((in.charAt(i) == '+') || (in.charAt(i) == '-') || (in.charAt(i) == '|')){
@@ -242,7 +255,11 @@ public class Main {
             if (isNumber(in.charAt(i)) || in.charAt(i) == '0') {
                 int j = i;
                 while ((j < in.length()) && !(in.charAt(j) == ',') && !(in.charAt(j) == '}') && !(in.charAt(j) == ' ')) {
-                    j++;
+                    if(isLetter(in.charAt(j))){
+                        throw new APException("Invalid data in set");
+                    } else {
+                        j++;
+                    }
                 }
                 s.add(processNaturalNumber(in.substring(i, j)));
                 i = j;
@@ -278,6 +295,17 @@ public class Main {
         return i - 1;
     }
 
+    private int findBracketEnd(String in, int startPosition) {
+        int i = startPosition;
+        while (i < in.length()) {
+            if (in.charAt(i) == '}') {
+                return i;
+            }
+            i++;
+        }
+        return 0;
+    }
+
     private boolean isLetter(char x) {
         Character check = x;
         for (int i = 0; i <= 51; i++) {
@@ -311,12 +339,24 @@ public class Main {
     }
 
     private boolean checkValuesInString(String in) throws APException{
+        int numbers = 0;
+        int commas = 0;
         for(int i=0; i<in.length();i++){
-            if(isNumber(in.charAt(i)) || in.charAt(i) == ',' || in.charAt(i) == '0' || in.charAt(i) == ' '){
-                // check
-            }else {
+            if(isNumber(in.charAt(i)) | (in.charAt(i) == '0')){
+                while((i < in.length()) && ((isNumber(in.charAt(i))) | (in.charAt(i) == '0'))){
+                        i++;
+                }
+                numbers++;
+            } else if(in.charAt(i) == ',' ){
+                commas++;
+            } else if (in.charAt(i) == ' '){
+                // Do nothing
+            } else {
                 throw new APException("Invalid data in set");
             }
+        }
+        if(commas != numbers-1 && (numbers != 0) && (commas != 0)){
+            throw new APException("Too many commas!");
         }
         return true;
     }
@@ -424,25 +464,28 @@ public class Main {
         return ((leftBrackets + rightBrackets) / 4) < operations;
     }
 
-    private void start() throws APException {
+    private void start() {
 
         Scanner in = new Scanner(System.in);
         while (in.hasNextLine()) {
-            String line = in.nextLine();
-            if (!line.equals("")) {
-                processLine(line);
-            } else {
-                throw new APException("No data");
+            try{
+                String line = in.nextLine();
+                if (!line.equals("")) {
+                    processLine(line);
+                } else {
+                    throw new APException("No data");
+                }
+            } catch (APException e) {
+                System.out.println(e.getMessage());
+                continue;
             }
+
         }
     }
 
     public static void main(String[] argv) {
-        try {
-            new Main().start();
-        } catch (APException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        new Main().start();
     }
+
+
 }

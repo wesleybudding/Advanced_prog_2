@@ -173,6 +173,12 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
     @Override
     public ListInterface<E> copy() {
-        return this;
+        ListInterface copyObject = null;
+        try {
+            copyObject = (ListInterface) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return copyObject;
     }
 }

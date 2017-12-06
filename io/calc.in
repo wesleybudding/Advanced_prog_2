@@ -14,7 +14,7 @@ Karel = Karel
 ? Karel
 / start testcase Reinout van Schouwen
 rein = {1, 2, 5}
-rein = {1, 2, 5, 16} - {2, 3, 4, 5}
+rein = {1, 2, 5, 16} - {2, 3, 4, 5} 
 ?rein
 out = rein
 / Nu zouden dezelfde twee opdrachten eventueel fout kunnen gaan.
@@ -23,7 +23,7 @@ rein = {1, 2, 5, 16} - {2, 3, 4, 5}
 ?rein
 / eind testcase Reinout
 / start testcase Eline van Mantgem
-/ De volgende statements gaan verkeerd als de compareTo() in
+/ De volgende statements gaan verkeerd als de compareTo() in 
 / de Getal class niet goed werkt.
 A={1234567890, 2625242322}
 B={2}

@@ -6,7 +6,7 @@ public class Main {
 
     private char[] letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private char[] number = "123456789".toCharArray();
-    private HashMap<String, Set> storage = new HashMap<>();
+    private HashMap<Identifier, Set> storage = new HashMap<>();
 
     private Identifier storeIdenfifier(String input) throws APException {
         Identifier store = new Identifier();
@@ -44,7 +44,13 @@ public class Main {
     private void processLine(String in) throws APException {
         for(int i = 0; i < in.length(); i++){
             if (in.charAt(i) == '/') {
-                return;
+                if (i == 0){
+                    return;
+                }
+                else{
+                    throw new APException("Slash not allowed on position " + i+1);
+                }
+
             }
         }
         if (!countParentheses(in)) {
@@ -86,8 +92,7 @@ public class Main {
         }
 
         Set<BigInteger> s = processExpression(in.substring(i + 1, in.length()));
-        String name = identfier.getString();
-        storage.put(name, s);
+        storage.put(identfier, s);
     }
 
     private Set<BigInteger> processComplexFactor(String in, int startPosition) throws APException {
@@ -213,7 +218,7 @@ public class Main {
         for (int i = 0; i < in.length(); i++) {
             if (isLetter(in.charAt(i))) {
                 Identifier name = storeIdenfifier(in.substring(i));
-                Set<BigInteger> s = storage.get(name.getString());
+                Set<BigInteger> s = storage.get(name);
                 if (s == null) {
                     throw new APException("Set not found.");
                 } else {
@@ -465,7 +470,6 @@ public class Main {
     }
 
     private void start() {
-
         Scanner in = new Scanner(System.in);
         while (in.hasNextLine()) {
             try{

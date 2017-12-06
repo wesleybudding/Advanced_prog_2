@@ -42,4 +42,12 @@ public class Identifier implements IdentifierInterface {
     @Override public int hashCode(){
         return Objects.hash(identifierString);
     }
+
+    @Override public boolean equals(final Object obj){
+        Identifier object = (Identifier) obj;
+        if(this.getString().equals(object.getString())){
+            return true;
+        }
+        return false;
+    }
 }

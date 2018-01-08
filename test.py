@@ -38,7 +38,7 @@ def has_colours(stream):
         return False
 
 parser = argparse.ArgumentParser(description='Automatic tester for Advanced ' +
-                                 'Programming assignment 2, NoVA edition')
+                                             'Programming assignment 2, NoVA edition')
 parser.add_argument('jar', action='store', nargs='?',
                     default='build/libs/AP2-1.0.jar', type=str,
                     help="location of jar to execute")

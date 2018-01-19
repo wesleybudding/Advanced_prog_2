@@ -535,6 +535,30 @@ public class Main {
         }
     }
 
+    private void checkSpacesBetweenNumbers(Scanner test) throws APException {
+        test.useDelimiter("");
+        int number = 0,
+                space = 0;
+        if (!isCharacter(test, '/')) {
+            while (test.hasNext()) {
+                String charactar = test.next();
+                //System.out.println("print char: "+charactar+" status number: "+ number + " status space: " + space);
+                Scanner a = new Scanner(charactar);
+                if (space == 1 && number == 1 && isDigit(a)) {
+                    throw new APException("Invalid input two numbers in row without propper seperation");
+                } else if (charactar.equals(" ")) {
+                    space = 1;
+                } else if (isDigit(a)){
+                    number = 1;
+                    space = 0;
+                }else{
+                    number=0;
+                    space=0;
+                }
+            }
+        }
+    }
+
     private void eof(Scanner in) throws APException{
         while (in.hasNext()){
             if(isCharacter(in,' ')){
@@ -571,7 +595,6 @@ public class Main {
     }
 
     private void processAssignment(Scanner in) throws APException {
-
         Identifier store = createIdentifier(in);
         character(in, '=');
 
@@ -698,7 +721,6 @@ public class Main {
     private Set<BigInteger> processRowNaturalNumbers(Scanner in) throws APException {
         Set<BigInteger> s = new Set<>();
         readSpaces(in);
-
         while(!isCharacter(in,'}') && isDigit(in)){
             s.add(processNaturalNumber(in));
             readSpaces(in);
@@ -764,6 +786,8 @@ public class Main {
 
                 if (!line.equals("")) {
                     Scanner lineScanner = new Scanner(line);
+                    Scanner lineSpaceChecker = new Scanner(line);
+                    checkSpacesBetweenNumbers(lineSpaceChecker);
                     processLine(lineScanner);
                 } else {
                     throw new APException("No data");
